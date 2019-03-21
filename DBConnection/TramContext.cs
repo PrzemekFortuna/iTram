@@ -9,7 +9,8 @@ namespace DBConnection
 {
     public class TramContext : DbContext
     {
-        public DbSet<User> Users { get; set; }        
+        public DbSet<User> Users { get; set; }
+        public DbSet<SensorsReading> SensorsReadings { get; set; }
 
 
         public TramContext(DbContextOptions options) : base(options)
