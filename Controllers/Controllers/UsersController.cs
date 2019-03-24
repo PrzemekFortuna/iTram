@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using DBConnection;
 using DBConnection.Entities;
 using Services;
+using Microsoft.AspNetCore.Authorization;
+using DBConnection.DTO;
 
 namespace Controllers.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -39,6 +42,25 @@ namespace Controllers.Controllers
             }
 
             return Ok(user);
-        }        
+        }
+
+        // POST: api/Users/Register
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<UserDTO>> PostUser([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_userService.IfUserExists(user.Email))
+                return BadRequest(new { message = "User with given email already exists!" });
+
+            var userDTO = await _userService.RegisterUser(user);
+
+            return CreatedAtAction("PostUser", userDTO);            
+        }
+
+        // POST: api/Users/Login
+
     }
 }
