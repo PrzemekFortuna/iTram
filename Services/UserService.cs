@@ -41,13 +41,14 @@ namespace Services
             user.Password = GenerateHash(user.Password);
 
             var result = await Context.Users.AddAsync(user);
+            await Context.SaveChangesAsync();
 
             var userDTO = new UserDTO()
             {
                 UserId = result.Entity.UserId,
                 Email = result.Entity.Email,
                 Name = result.Entity.Name,
-                Lastname = result.Entity.Name
+                Lastname = result.Entity.Lastname
             };
 
             return userDTO;
@@ -72,7 +73,7 @@ namespace Services
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
                 }),
                 Expires = DateTime.Now.AddDays(5),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.RsaSha512)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

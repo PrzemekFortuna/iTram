@@ -27,7 +27,7 @@ namespace Controllers.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace Controllers.Controllers
 
         // POST: api/Users/Register
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
@@ -61,6 +61,20 @@ namespace Controllers.Controllers
         }
 
         // POST: api/Users/Login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var token = await _userService.Login(user.Email, user.Password);
+
+            if (token == null)
+                return BadRequest(new { message = "Wrong email or password" });
+
+            return Ok(token);
+        }
 
     }
 }
