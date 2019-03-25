@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using DBConnection;
 using DBConnection.Entities;
 using Services;
+using Microsoft.AspNetCore.Authorization;
+using DBConnection.DTO;
 
 namespace Controllers.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -24,7 +27,7 @@ namespace Controllers.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -39,6 +42,39 @@ namespace Controllers.Controllers
             }
 
             return Ok(user);
-        }        
+        }
+
+        // POST: api/Users/Register
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDTO>> PostUser([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_userService.IfUserExists(user.Email))
+                return BadRequest(new { message = "User with given email already exists!" });
+
+            var userDTO = await _userService.RegisterUser(user);
+
+            return CreatedAtAction("PostUser", userDTO);            
+        }
+
+        // POST: api/Users/Login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var token = await _userService.Login(user.Email, user.Password);
+
+            if (token == null)
+                return BadRequest(new { message = "Wrong email or password" });
+
+            return Ok(token);
+        }
+
     }
 }
