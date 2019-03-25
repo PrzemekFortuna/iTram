@@ -57,6 +57,7 @@ namespace Services
         //Login
         public async Task<string> Login(string email, string password)
         {
+            //TODO: validate if email, passwords are not empty
             var hash = GenerateHash(password);            
             var user = await Context.Users.FirstOrDefaultAsync(x => x.Email == email && x.Password == hash);
 

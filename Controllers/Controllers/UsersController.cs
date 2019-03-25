@@ -44,11 +44,21 @@ namespace Controllers.Controllers
             return Ok(user);
         }
 
-        // POST: api/Users/Register
+        /// POST
+        /// <route> api/Users/register </route>
+        /// <summary>
+        /// Register endpoint. Receives User object in request body. Endpoint is allowed anonymously - no JWT token is required
+        /// Returned codes:
+        /// 400 Bad Request - when user already exists or provided data is invalid
+        /// 201 Created
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns> UserDTO </returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] User user)
         {
+            //TODO: Return bad request when data is invalid or missing
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -60,15 +70,25 @@ namespace Controllers.Controllers
             return CreatedAtAction("PostUser", userDTO);            
         }
 
-        // POST: api/Users/Login
+        /// POST
+        /// <route> api/Users/login </route>
+        /// <summary>
+        /// Login endpoint. Receives LoginDTO object in body and if provided credentials are correct, returns JWT token.
+        /// Endpoint is allowed anonymously - no JWT token is required
+        /// Returned codes:
+        /// 400 Bad Request - wrong email or password
+        /// 200 Ok - when provided credentials are correct and JWT token is returned
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns> string JWT token </returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody] User user)
+        public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var token = await _userService.Login(user.Email, user.Password);
+            var token = await _userService.Login(loginDTO.Email, loginDTO.Password);
 
             if (token == null)
                 return BadRequest(new { message = "Wrong email or password" });
