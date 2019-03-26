@@ -33,6 +33,7 @@ namespace Controllers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddApplicationInsightsTelemetry(Configuration);
 
             var appSettingsSection = Configuration.GetSection("JWT");
             services.Configure<AppSettings>(appSettingsSection);
@@ -79,6 +80,8 @@ namespace Controllers
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseApplicationInsightsRequestTelemetry();
+            app.UseApplicationInsightsExceptionTelemetry();
             app.UseMvc();
         }
     }
