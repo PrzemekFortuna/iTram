@@ -3,14 +3,16 @@ using DBConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DBConnection.Migrations
 {
     [DbContext(typeof(TramContext))]
-    partial class TramContextModelSnapshot : ModelSnapshot
+    [Migration("20190326094203_TramMigration")]
+    partial class TramMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,23 +26,11 @@ namespace DBConnection.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Ax");
+                    b.Property<double>("A");
 
-                    b.Property<double>("Ay");
+                    b.Property<double>("B");
 
-                    b.Property<double>("Az");
-
-                    b.Property<int>("BatteryLevel");
-
-                    b.Property<double>("Gx");
-
-                    b.Property<double>("Gy");
-
-                    b.Property<double>("Gz");
-
-                    b.Property<double>("Latitude");
-
-                    b.Property<double>("Longtitude");
+                    b.Property<double>("C");
 
                     b.HasKey("Id");
 
