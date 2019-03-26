@@ -60,6 +60,7 @@ namespace Controllers
 
             services.AddDbContext<TramContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureDb"), b => b.MigrationsAssembly("DBConnection")), ServiceLifetime.Transient);
             services.AddTransient<UserService>();
+            services.AddTransient<SensorReadingService>();
             services.AddTransient<TramService>();
         }
 

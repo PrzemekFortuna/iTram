@@ -22,9 +22,12 @@ namespace Services
             return sensorReadings;
         }
 
-        public async Task AddAsync(SensorsReading sensorsReading)
+        public async Task<SensorsReading> AddAsync(SensorsReading sensorsReading)
         {
-            await Context.SensorsReadings.AddAsync(sensorsReading);
+            var sr = await Context.SensorsReadings.AddAsync(sensorsReading);
+            await Context.SaveChangesAsync();
+
+            return sr.Entity;
         }
     }
 }
