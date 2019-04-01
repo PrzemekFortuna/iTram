@@ -16,6 +16,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Services;
+using Services.Handlers;
+using Services.Handlers.Accelerometer;
+using Services.Handlers.Gyroscope;
+using Services.Handlers.Location;
 using Services.Helpers;
 
 namespace Controllers
@@ -63,6 +67,10 @@ namespace Controllers
             services.AddTransient<UserService>();
             services.AddTransient<SensorReadingService>();
             services.AddTransient<TramService>();
+            services.AddSingleton(AutoMapperConfiguration.Initialize());
+            services.AddSingleton(CreateAccelerometerHandlers());
+            services.AddSingleton(CreateLocationHandler());
+            services.AddSingleton(CreateGyroscopeHandlers());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +91,26 @@ namespace Controllers
             app.UseApplicationInsightsRequestTelemetry();
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseMvc();
+        }
+
+        private LocationHandler CreateLocationHandler()
+        {
+            var ret = new DecimalDegreesHandler();
+            ret.SetNext(new DegreesMinutesSecondsHandler());
+            return ret;
+        }
+
+        private AccelerometerHandler CreateAccelerometerHandlers()
+        {
+            var ret = new MeterPerSecondSquaredHandler();
+            return ret;
+        }
+
+        private GyroscopeHandler CreateGyroscopeHandlers()
+        {
+            var ret = new RadPerSHandler();
+            ret.SetNext(new RpmHandler());
+            return ret;
         }
     }
 }

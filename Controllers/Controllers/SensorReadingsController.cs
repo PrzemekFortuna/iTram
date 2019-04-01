@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DBConnection.DTO;
 using DBConnection.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -17,6 +18,7 @@ namespace Controllers.Controllers
         public SensorReadingsController(SensorReadingService sensorReadingService)
         {
             _sensorReadingService = sensorReadingService;
+            _sensorReadingService.ModelState = ModelState;
         }
 
         [HttpGet]
@@ -31,17 +33,18 @@ namespace Controllers.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<IActionResult> Post([FromBody] SensorsReading sensorsReading)
+        public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            await _sensorReadingService.AddAsync(sensorsReading);
-            return Created($"api/sensorsreadings/{sensorsReading.Id}", null);
+            var res = await _sensorReadingService.AddAsync(sensorsReading);
+            if (!res)
+                return BadRequest();
 
-            //todo fix SensorsReading entity, add migration
+            return Created($"api/sensorsreadings/", null);
         }
     }
 }
