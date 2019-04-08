@@ -12,6 +12,7 @@ namespace Services.Helpers
             {
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<User, LoginDTO>();
+                cfg.CreateMap<Trip, TripDTO>();
                 cfg.CreateMap<SensorsReading, SensorsReadingDTO>()
                     .ForMember(dest => dest.Latitude, opts => opts.MapFrom(src => src.Location.Latitude))
                     .ForMember(dest => dest.Longitude, opts => opts.MapFrom(src => src.Location.Longitude))

@@ -12,6 +12,7 @@ namespace DBConnection
         public DbSet<User> Users { get; set; }
         public DbSet<SensorsReading> SensorsReadings { get; set; }
         public DbSet<Tram> Trams { get; set; }
+        public DbSet<Trip> Trips { get; set; }
         //public DbSet<SensorsReading.Gyroscope> Gyroscopes { get; set; }
 
 

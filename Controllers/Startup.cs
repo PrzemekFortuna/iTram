@@ -67,6 +67,7 @@ namespace Controllers
             services.AddTransient<UserService>();
             services.AddTransient<SensorReadingService>();
             services.AddTransient<TramService>();
+            services.AddTransient<TripService>();
             services.AddSingleton(AutoMapperConfiguration.Initialize());
             services.AddSingleton(CreateAccelerometerHandlers());
             services.AddSingleton(CreateLocationHandler());
