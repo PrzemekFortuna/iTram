@@ -14,7 +14,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Controllers.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TripsController : ControllerBase
@@ -59,7 +59,7 @@ namespace Controllers.Controllers
         {
             var trips = await _tripService.GetTripsForUser(userId);
 
-            if (trips == null)
+            if (trips.Count == 0)
                 return NotFound(new { message = "No trips for given user" });
 
             return Ok(trips);
