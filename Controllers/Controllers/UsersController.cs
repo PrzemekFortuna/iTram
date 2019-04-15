@@ -10,6 +10,7 @@ using DBConnection.Entities;
 using Services;
 using Microsoft.AspNetCore.Authorization;
 using DBConnection.DTO;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Controllers.Controllers
 {
@@ -25,7 +26,17 @@ namespace Controllers.Controllers
             _userService = userService;
         }
 
-        // GET: api/Users/5
+        /// <summary>
+        /// Gets user by id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>User</returns>
+        /// <response code="404">User not found</response>
+        /// <response code="400">Bad request</response>        
+        /// <response code="401">Unauthorized</response>
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser([FromRoute] int id)
         {
@@ -38,23 +49,21 @@ namespace Controllers.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found");
             }
 
             return Ok(user);
         }
 
-        /// POST
-        /// <route> api/Users/register </route>
         /// <summary>
-        /// Register endpoint. Receives User object in request body. Endpoint is allowed anonymously - no JWT token is required
-        /// Returned codes:
-        /// 400 Bad Request - when user already exists or provided data is invalid
-        /// 201 Created
+        /// Register user
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns> UserDTO </returns>
+        /// <param name="user">User object</param>
+        /// <returns>UserDTO</returns>
+        /// <response code="404">User not found</response>     
+        /// <response code="401">Unauthorized</response>
         [AllowAnonymous]
+        [Produces("application/json")]
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] User user)
         {
@@ -70,18 +79,12 @@ namespace Controllers.Controllers
             return CreatedAtAction("PostUser", userDTO);            
         }
 
-        /// POST
-        /// <route> api/Users/login </route>
-        /// <summary>
-        /// Login endpoint. Receives LoginDTO object in body and if provided credentials are correct, returns JWT token.
-        /// Endpoint is allowed anonymously - no JWT token is required
-        /// Returned codes:
-        /// 400 Bad Request - wrong email or password
-        /// 200 Ok - when provided credentials are correct and JWT token is returned
-        /// </summary>
-        /// <param name="loginDTO"></param>
-        /// <returns> string JWT token </returns>
         [AllowAnonymous]
+        [Produces("application/json")]
+        [SwaggerOperation(
+            Summary = "Login endpoint")
+        ]
+        [SwaggerResponse(200, "JWT token")]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DBConnection.DTO
 {
-    public class TripDTO
+    public class TripResDTO
     {
         public int TripId { get; set; }
         public int TramId { get; set; }

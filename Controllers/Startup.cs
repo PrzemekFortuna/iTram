@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DBConnection;
@@ -21,6 +23,7 @@ using Services.Handlers.Accelerometer;
 using Services.Handlers.Gyroscope;
 using Services.Handlers.Location;
 using Services.Helpers;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Controllers
 {
@@ -72,6 +75,16 @@ namespace Controllers
             services.AddSingleton(CreateAccelerometerHandlers());
             services.AddSingleton(CreateLocationHandler());
             services.AddSingleton(CreateGyroscopeHandlers());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "iTram API", Description = "REST API for inteligent tram project" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                c.EnableAnnotations();
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +104,12 @@ namespace Controllers
             app.UseHttpsRedirection();
             app.UseApplicationInsightsRequestTelemetry();
             app.UseApplicationInsightsExceptionTelemetry();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "iTram API");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseMvc();
         }
 

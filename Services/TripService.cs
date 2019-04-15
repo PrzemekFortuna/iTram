@@ -22,7 +22,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<TripDTO> CreateTrip(TripDTO tripDTO)
+        public async Task<TripResDTO> CreateTrip(TripReqDTO tripDTO)
         {
             var tripExists = await ActiveTripForUserExists(tripDTO.UserId);
             if (tripExists)
@@ -39,23 +39,23 @@ namespace Services
             var tr = await _context.Trips.AddAsync(trip);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<TripDTO>(tr.Entity);
+            return _mapper.Map<TripResDTO>(tr.Entity);
         }
 
 
 
-        public async Task<ICollection<TripDTO>> GetTripsForUser(int userId)
+        public async Task<ICollection<TripResDTO>> GetTripsForUser(int userId)
         {
             var trips = await _context.Trips.Where(t => t.UserId == userId)
-                .Select(tr => _mapper.Map<TripDTO>(tr)).ToListAsync();
+                .Select(tr => _mapper.Map<TripResDTO>(tr)).ToListAsync();
 
             return trips;
         }
 
-        public async Task<TripDTO> GetTrip(int id)
+        public async Task<TripResDTO> GetTrip(int id)
         {
             var tr = await _context.Trips.FindAsync(id);
-            return _mapper.Map<TripDTO>(tr);
+            return _mapper.Map<TripResDTO>(tr);
         }
 
         public async Task FinishTrip(int userId)
