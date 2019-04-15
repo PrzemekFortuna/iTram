@@ -30,7 +30,7 @@ namespace Controllers.Controllers
         [HttpGet("{id}")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Getes trip with given id"
+            Summary = "Gets trip with given id"
             )]
         [SwaggerResponse(200, null, typeof(TripResDTO))]
         [SwaggerResponse(404, "Trip not found", typeof(Exception))]
