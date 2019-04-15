@@ -4,14 +4,16 @@ using DBConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DBConnection.Migrations
 {
     [DbContext(typeof(TramContext))]
-    partial class TramContextModelSnapshot : ModelSnapshot
+    [Migration("20190415114206_NewSensors2")]
+    partial class NewSensors2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,23 +72,6 @@ namespace DBConnection.Migrations
                     b.ToTable("SensorsReadings");
                 });
 
-            modelBuilder.Entity("DBConnection.Entities.Sensors.Gravity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double?>("GravityX");
-
-                    b.Property<double?>("GravityY");
-
-                    b.Property<double?>("GravityZ");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SensorsReadings");
-                });
-
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gyroscope", b =>
                 {
                     b.Property<int>("Id")
@@ -130,23 +115,6 @@ namespace DBConnection.Migrations
                     b.Property<double?>("MagneticFieldY");
 
                     b.Property<double?>("MagneticFieldZ");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SensorsReadings");
-                });
-
-            modelBuilder.Entity("DBConnection.Entities.Sensors.RotationVec", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double?>("RotationVecX");
-
-                    b.Property<double?>("RotationVecY");
-
-                    b.Property<double?>("RotationVecZ");
 
                     b.HasKey("Id");
 
@@ -292,14 +260,6 @@ namespace DBConnection.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DBConnection.Entities.Sensors.Gravity", b =>
-                {
-                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
-                        .WithOne("Gravity")
-                        .HasForeignKey("DBConnection.Entities.Sensors.Gravity", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gyroscope", b =>
                 {
                     b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
@@ -321,14 +281,6 @@ namespace DBConnection.Migrations
                     b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
                         .WithOne("MagneticField")
                         .HasForeignKey("DBConnection.Entities.Sensors.MagneticField", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DBConnection.Entities.Sensors.RotationVec", b =>
-                {
-                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
-                        .WithOne("RotationVec")
-                        .HasForeignKey("DBConnection.Entities.Sensors.RotationVec", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

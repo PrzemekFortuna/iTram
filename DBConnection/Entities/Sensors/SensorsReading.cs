@@ -12,6 +12,18 @@ namespace DBConnection.Entities
         public Accelerometer Accelerometer { get; protected set; }
         public Gyroscope Gyroscope { get; protected set; }
         public Location Location { get; protected set; }
+        public GameRotation GameRotation { get; protected set; }
+        public GeomagneticRotation GeomagneticRotation { get; protected set; }
+        public MagneticField MagneticField { get; protected set; }
+        public Gravity Gravity { get; protected set; }
+        public RotationVec RotationVec { get; protected set; }
+        public double? Light { get; protected set; }
+        public float? StepDetector { get; protected set; }
+        public double? Pressure { get; protected set; }
+        public double? Proximity { get; set; }
+        public float? NumberOfSteps { get; set; }
+
         public int? BatteryLevel { get; protected set; }
+        public bool? ImInTram { get; protected set; }
     }
 }
