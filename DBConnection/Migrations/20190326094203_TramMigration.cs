@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DBConnection.Migrations
 {
@@ -12,7 +13,7 @@ namespace DBConnection.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     A = table.Column<double>(nullable: false),
                     B = table.Column<double>(nullable: false),
                     C = table.Column<double>(nullable: false)
@@ -27,7 +28,7 @@ namespace DBConnection.Migrations
                 columns: table => new
                 {
                     TramId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     CityId = table.Column<int>(nullable: false),
                     Number = table.Column<int>(nullable: false)
                 },

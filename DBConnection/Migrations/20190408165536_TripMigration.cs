@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DBConnection.Migrations
 {
@@ -13,7 +14,7 @@ namespace DBConnection.Migrations
                 columns: table => new
                 {
                     TripId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     StartTime = table.Column<DateTime>(nullable: false),
                     Length = table.Column<float>(nullable: false),
                     IsFinished = table.Column<bool>(nullable: false),
