@@ -3,29 +3,27 @@ using System;
 using DBConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DBConnection.Migrations
 {
     [DbContext(typeof(TramContext))]
-    [Migration("20190415112946_NewSensors")]
-    partial class NewSensors
+    [Migration("20190416102033_Init-Postgres")]
+    partial class InitPostgres
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Accelerometer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("Ax");
 
@@ -40,9 +38,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.GameRotation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("GameRotationVecX");
 
@@ -55,11 +51,39 @@ namespace DBConnection.Migrations
                     b.ToTable("SensorsReadings");
                 });
 
+            modelBuilder.Entity("DBConnection.Entities.Sensors.GeomagneticRotation", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<double?>("GeomagneticRotationVecX");
+
+                    b.Property<double?>("GeomagneticRotationVecY");
+
+                    b.Property<double?>("GeomagneticRotationVecZ");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorsReadings");
+                });
+
+            modelBuilder.Entity("DBConnection.Entities.Sensors.Gravity", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<double?>("GravityX");
+
+                    b.Property<double?>("GravityY");
+
+                    b.Property<double?>("GravityZ");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorsReadings");
+                });
+
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gyroscope", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("Gx");
 
@@ -74,9 +98,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Location", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("Latitude");
 
@@ -87,11 +109,40 @@ namespace DBConnection.Migrations
                     b.ToTable("SensorsReadings");
                 });
 
+            modelBuilder.Entity("DBConnection.Entities.Sensors.MagneticField", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<double?>("MagneticFieldX");
+
+                    b.Property<double?>("MagneticFieldY");
+
+                    b.Property<double?>("MagneticFieldZ");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorsReadings");
+                });
+
+            modelBuilder.Entity("DBConnection.Entities.Sensors.RotationVec", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<double?>("RotationVecX");
+
+                    b.Property<double?>("RotationVecY");
+
+                    b.Property<double?>("RotationVecZ");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorsReadings");
+                });
+
             modelBuilder.Entity("DBConnection.Entities.SensorsReading", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("BatteryLevel");
 
@@ -99,9 +150,13 @@ namespace DBConnection.Migrations
 
                     b.Property<double?>("Light");
 
+                    b.Property<float?>("NumberOfSteps");
+
                     b.Property<double?>("Pressure");
 
                     b.Property<double?>("Proximity");
+
+                    b.Property<float?>("StepDetector");
 
                     b.HasKey("Id");
 
@@ -111,8 +166,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.Tram", b =>
                 {
                     b.Property<int>("TramId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CityId");
 
@@ -126,8 +180,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.Trip", b =>
                 {
                     b.Property<int>("TripId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsFinished");
 
@@ -151,8 +204,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -170,32 +222,6 @@ namespace DBConnection.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            Email = "user1@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password1"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Email = "user2@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password2"
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            Email = "user3@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password3"
-                        });
                 });
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Accelerometer", b =>
@@ -214,6 +240,22 @@ namespace DBConnection.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DBConnection.Entities.Sensors.GeomagneticRotation", b =>
+                {
+                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
+                        .WithOne("GeomagneticRotation")
+                        .HasForeignKey("DBConnection.Entities.Sensors.GeomagneticRotation", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DBConnection.Entities.Sensors.Gravity", b =>
+                {
+                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
+                        .WithOne("Gravity")
+                        .HasForeignKey("DBConnection.Entities.Sensors.Gravity", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gyroscope", b =>
                 {
                     b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
@@ -227,6 +269,22 @@ namespace DBConnection.Migrations
                     b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
                         .WithOne("Location")
                         .HasForeignKey("DBConnection.Entities.Sensors.Location", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DBConnection.Entities.Sensors.MagneticField", b =>
+                {
+                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
+                        .WithOne("MagneticField")
+                        .HasForeignKey("DBConnection.Entities.Sensors.MagneticField", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DBConnection.Entities.Sensors.RotationVec", b =>
+                {
+                    b.HasOne("DBConnection.Entities.SensorsReading", "Reading")
+                        .WithOne("RotationVec")
+                        .HasForeignKey("DBConnection.Entities.Sensors.RotationVec", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

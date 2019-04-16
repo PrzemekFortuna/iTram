@@ -3,7 +3,6 @@ using System;
 using DBConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -16,15 +15,13 @@ namespace DBConnection.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Accelerometer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("Ax");
 
@@ -39,9 +36,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.GameRotation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("GameRotationVecX");
 
@@ -56,9 +51,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.GeomagneticRotation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("GeomagneticRotationVecX");
 
@@ -73,9 +66,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gravity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("GravityX");
 
@@ -90,9 +81,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Gyroscope", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("Gx");
 
@@ -107,9 +96,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Location", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("Latitude");
 
@@ -122,9 +109,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.MagneticField", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("MagneticFieldX");
 
@@ -139,9 +124,7 @@ namespace DBConnection.Migrations
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.RotationVec", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                    b.Property<int>("Id");
 
                     b.Property<double?>("RotationVecX");
 
@@ -157,8 +140,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.SensorsReading", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("BatteryLevel");
 
@@ -182,8 +164,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.Tram", b =>
                 {
                     b.Property<int>("TramId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CityId");
 
@@ -197,8 +178,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.Trip", b =>
                 {
                     b.Property<int>("TripId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsFinished");
 
@@ -222,8 +202,7 @@ namespace DBConnection.Migrations
             modelBuilder.Entity("DBConnection.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -241,32 +220,6 @@ namespace DBConnection.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            Email = "user1@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password1"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Email = "user2@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password2"
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            Email = "user3@gmail.com",
-                            Lastname = "Kowalski",
-                            Name = "Jan",
-                            Password = "password3"
-                        });
                 });
 
             modelBuilder.Entity("DBConnection.Entities.Sensors.Accelerometer", b =>
