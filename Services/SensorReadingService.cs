@@ -63,6 +63,7 @@ namespace Services
                 if (result == null)
                     return false;
             }
+            reading.TimeStamp = DateTime.Now;
             var sr = await Context.SensorsReadings.AddAsync(reading);
             await Context.SaveChangesAsync();
 

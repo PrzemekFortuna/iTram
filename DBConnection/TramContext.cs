@@ -35,6 +35,13 @@ namespace DBConnection
             {
                 entity.HasIndex(e => e.Email).IsUnique();
             });
+
+            modelBuilder.Entity<SensorsReading>(entity =>
+            {
+                entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(e => e.UserId);
+            });
         }
     }
 }

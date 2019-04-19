@@ -7,7 +7,9 @@ namespace DBConnection.Entities
 {
     public class SensorsReading
     {
-        public int Id { get; protected set; }
+        public int Id { get; protected set; }        
+        public int UserId { get; set; }
+        public DateTime TimeStamp { get; set; }
 
         public Accelerometer Accelerometer { get; protected set; }
         public Gyroscope Gyroscope { get; protected set; }
