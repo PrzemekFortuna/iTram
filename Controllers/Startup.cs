@@ -80,7 +80,7 @@ namespace Controllers
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "iTram API", Description = "REST API for inteligent tram project" });
+                c.SwaggerDoc("v1", new Info { Title = "iTram API", Description = "REST API for intelligent tram project" });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);

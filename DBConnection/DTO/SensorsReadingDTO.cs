@@ -1,8 +1,12 @@
-﻿namespace DBConnection.DTO
+﻿using System;
+
+namespace DBConnection.DTO
 {
     public class SensorsReadingDTO
     {
         public int Id { get; set; }
+        public string NearestBeaconId { get; set; }
+
         public double? Ax { get; set; }
         public double? Ay { get; set; }
         public double? Az { get; set; }

@@ -64,6 +64,7 @@ namespace Services
                     return false;
             }
             reading.TimeStamp = DateTime.Now;
+            reading.UserId = 1; // todo: once authorization works, fetch id from session
             var sr = await Context.SensorsReadings.AddAsync(reading);
             await Context.SaveChangesAsync();
 

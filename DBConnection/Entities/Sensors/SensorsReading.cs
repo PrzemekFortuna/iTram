@@ -9,6 +9,7 @@ namespace DBConnection.Entities
     {
         public int Id { get; protected set; }        
         public int UserId { get; set; }
+        public string NearestBeaconId { get; protected set; }
         public DateTime TimeStamp { get; set; }
 
         public Accelerometer Accelerometer { get; protected set; }
