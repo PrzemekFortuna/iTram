@@ -25,9 +25,9 @@ namespace Controllers.Controllers
         [SwaggerOperation(
             Summary = "Gets all sensors' readings"
         )]
-        [SwaggerResponse(200, null, typeof(IEnumerable<SensorsReadingDTO>))]
-        [SwaggerResponse(401, "Unauthorized", typeof(string))]
-        [SwaggerResponse(404, "no readings found", typeof(string))]
+        [SwaggerResponse(200, "Success", typeof(IEnumerable<SensorsReadingDTO>))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(404, "No readings were found", typeof(string))]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -44,6 +44,7 @@ namespace Controllers.Controllers
         )]
         [SwaggerResponse(201, "Sensors' reading added", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("new")]
         public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
@@ -64,6 +65,7 @@ namespace Controllers.Controllers
         )]
         [SwaggerResponse(201, "Sensors' readings added", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("multiple-new")]
         public async Task<IActionResult> Post([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReading)
         {

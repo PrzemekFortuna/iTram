@@ -26,14 +26,13 @@ namespace Controllers.Controllers
             _userService = userService;
         }
 
-        /// <summary>
-        /// Gets user by id
-        /// </summary>
-        /// <param name="id">User id</param>
-        /// <returns>User</returns>
-        /// <response code="404">User not found</response>
-        /// <response code="400">Bad request</response>        
-        /// <response code="401">Unauthorized</response>
+        [SwaggerOperation(
+            Summary = "Gets user with given ID"
+         )]
+        [SwaggerResponse(200, "User was found", typeof(User))]
+        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(404, "User not found", typeof(Exception))]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -55,13 +54,12 @@ namespace Controllers.Controllers
             return Ok(user);
         }
 
-        /// <summary>
-        /// Register user
-        /// </summary>
-        /// <param name="user">User object</param>
-        /// <returns>UserDTO</returns>
-        /// <response code="404">User not found</response>     
-        /// <response code="401">Unauthorized</response>
+        [SwaggerOperation(
+            Summary = "Registers new user"
+         )]
+        [SwaggerResponse(201, "User was created", typeof(string))]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("register")]
@@ -82,9 +80,11 @@ namespace Controllers.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Login endpoint")
+            Summary = "Grants JWT token")
         ]
         [SwaggerResponse(200, "JWT token")]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
         {
