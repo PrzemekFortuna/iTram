@@ -44,7 +44,7 @@ namespace Controllers.Controllers
         )]
         [SwaggerResponse(201, "Sensors' reading added", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
-        [HttpPost("single-new")]
+        [HttpPost("new")]
         public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
             if (!ModelState.IsValid)
@@ -64,7 +64,7 @@ namespace Controllers.Controllers
         )]
         [SwaggerResponse(201, "Sensors' readings added", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
-        [HttpPost("new")]
+        [HttpPost("multiple-new")]
         public async Task<IActionResult> Post([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReading)
         {
             if (!ModelState.IsValid)
