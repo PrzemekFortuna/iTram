@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DBConnection;
@@ -45,24 +47,10 @@ namespace Services
         public async Task<bool> AddAsync(SensorsReadingUnitsDTO sensorsReading)
         {
             var reading = _mapper.Map<SensorsReading>(sensorsReading);
-            if (!String.IsNullOrWhiteSpace(reading.Accelerometer.AccelerometerUnit))
-            {
-                var result = _accelerometerHandler.Handle(reading.Accelerometer);
-                if (result == null)
-                    return false;
-            }
-            if (!String.IsNullOrWhiteSpace(reading.Gyroscope.GyroscopeUnit))
-            {
-                var result = _gyroscopeHandler.Handle(reading.Gyroscope);
-                if (result == null)
-                    return false;
-            }
-            if (!String.IsNullOrWhiteSpace(reading.Location.LocationUnit))
-            {
-                var result = _locationHandler.Handle(reading.Location);
-                if (result == null)
-                    return false;
-            }
+
+            if (!TryToHandleSensorsReading(reading))
+                return false;
+
             reading.TimeStamp = DateTime.Now;
             reading.UserId = 1; // todo: once authorization works, fetch id from session
             var sr = await Context.SensorsReadings.AddAsync(reading);
@@ -71,6 +59,46 @@ namespace Services
             return true;
         }
 
+      
+        public async Task<bool> AddAllAsync(IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
+        {
+            var readings = _mapper.Map<IEnumerable<SensorsReading>>(sensorsReadings).ToList();
+            foreach (var sensorsReading in readings)
+            {
+                if (!TryToHandleSensorsReading(sensorsReading))
+                    return false;
+                sensorsReading.TimeStamp = DateTime.Now;
+                sensorsReading.UserId = 1; // todo: once authorization works, fetch id from session
+            }
 
+            await Context.AddRangeAsync(readings);
+            await Context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private bool TryToHandleSensorsReading(SensorsReading sensorsReading)
+        {
+            if (!String.IsNullOrWhiteSpace(sensorsReading.Accelerometer.AccelerometerUnit))
+            {
+                var result = _accelerometerHandler.Handle(sensorsReading.Accelerometer);
+                if (result == null)
+                    return false;
+            }
+            if (!String.IsNullOrWhiteSpace(sensorsReading.Gyroscope.GyroscopeUnit))
+            {
+                var result = _gyroscopeHandler.Handle(sensorsReading.Gyroscope);
+                if (result == null)
+                    return false;
+            }
+            if (!String.IsNullOrWhiteSpace(sensorsReading.Location.LocationUnit))
+            {
+                var result = _locationHandler.Handle(sensorsReading.Location);
+                if (result == null)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

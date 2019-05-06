@@ -40,11 +40,11 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Gets all sensors' readings"
+            Summary = "Save one sensors' reading to database"
         )]
-        [SwaggerResponse(201, "Sensor's added", typeof(string))]
-        [SwaggerResponse(400, "Request structure was wrongs", typeof(string))]
-        [HttpPost("new")]
+        [SwaggerResponse(201, "Sensors' reading added", typeof(string))]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [HttpPost("single-new")]
         public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
             if (!ModelState.IsValid)
@@ -53,6 +53,26 @@ namespace Controllers.Controllers
             }
 
             var res = await _sensorReadingService.AddAsync(sensorsReading);
+            if (!res)
+                return BadRequest();
+
+            return Created($"api/sensorsreadings/", null);
+        }
+
+        [SwaggerOperation(
+            Summary = "Save one or more sensors' reading to database"
+        )]
+        [SwaggerResponse(201, "Sensors' readings added", typeof(string))]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [HttpPost("new")]
+        public async Task<IActionResult> Post([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReading)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var res = await _sensorReadingService.AddAllAsync(sensorsReading);
             if (!res)
                 return BadRequest();
 
