@@ -22,9 +22,16 @@ namespace Controllers.Controllers
         public TramsController(TramService tramService)
         {
             _tramService = tramService;
-        }        
+        }
 
         // GET: api/Trams/5
+        [SwaggerOperation(
+            Summary = "Gets tram with given ID"
+        )]
+        [SwaggerResponse(200, "Tram was found", typeof(Tram))]
+        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(404, "Tram not found", typeof(Exception))]
         [HttpGet("{id}")]
         public async Task<ActionResult<Tram>> GetTram(int id)
         {
@@ -39,6 +46,14 @@ namespace Controllers.Controllers
         }
 
         // GET: api/Trams?cityId=5
+        [SwaggerOperation(
+             Summary = "Gets trams from given city"
+        )]
+        [SwaggerResponse(200, "Trams were found", typeof(IEnumerable<Tram>))]
+        [SwaggerResponse(400, "No city id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(404, "Trams not found", typeof(string))]
+        [HttpGet("{id}")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tram>>> GetTramsForCity([FromQuery] int cityId)
         {
@@ -54,6 +69,12 @@ namespace Controllers.Controllers
 
 
         // POST: api/Trams
+        [SwaggerOperation(
+             Summary = "Saves tram to database"
+        )]
+        [SwaggerResponse(201, "Trams were found", typeof(string))]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost]
         public async Task<ActionResult<Tram>> PostTram(Tram tram)
         {

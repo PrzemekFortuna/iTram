@@ -30,9 +30,11 @@ namespace Controllers.Controllers
         [HttpGet("{id}")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Gets trip with given id"
+            Summary = "Gets trip with given ID"
             )]
-        [SwaggerResponse(200, null, typeof(TripResDTO))]
+        [SwaggerResponse(200, "Trip was found", typeof(TripResDTO))]
+        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [SwaggerResponse(404, "Trip not found", typeof(Exception))]
         public async Task<ActionResult<TripResDTO>> GetTrip(int id)
         {
@@ -52,9 +54,10 @@ namespace Controllers.Controllers
         [SwaggerOperation(
             Summary = "Gets trips for user"
             )]
-        [SwaggerResponse(200, null, typeof(IEnumerable<TripResDTO>))]
+        [SwaggerResponse(200, "Trips were found", typeof(IEnumerable<TripResDTO>))]
+        [SwaggerResponse(400, "No user id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [SwaggerResponse(404, "No trips for given user", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized", typeof(string))]
         public async Task<ActionResult<IEnumerable<TripResDTO>>> GetTripsForUser([FromQuery] int userId)
         {
             var trips = await _tripService.GetTripsForUser(userId);
@@ -72,6 +75,7 @@ namespace Controllers.Controllers
             )]
         [SwaggerResponse(201, "Trip created", typeof(TripResDTO))]
         [SwaggerResponse(400, "There is already an active trip for this user", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         public async Task<ActionResult<Trip>> PostTrip(TripReqDTO tripDTO)
         {
             try
@@ -88,7 +92,9 @@ namespace Controllers.Controllers
         // PATCH: api/Trips?userId=5
         [HttpPatch("finish")]
         [Produces("application/json")]
-        [SwaggerOperation(Summary = "Finishes trip for user")]
+        [SwaggerOperation(
+            Summary = "Finishes trip for user"
+            )]
         [SwaggerResponse(200)]
         [SwaggerResponse(400, "There is no active trip for this user", typeof(InvalidOperationException))]
         [SwaggerResponse(401, "Unauthorized", typeof(string))]

@@ -31,9 +31,9 @@ namespace Controllers.Controllers
         [SwaggerOperation(
             Summary = "Gets city with given ID"
             )]
-        [SwaggerResponse(200, null, typeof(City))]
-        [SwaggerResponse(400, "No name provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized", typeof(string))]
+        [SwaggerResponse(200, "City was found", typeof(City))]
+        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [SwaggerResponse(404, "City not found", typeof(Exception))]
         public async Task<ActionResult<City>> GetCity(int id)
         {
@@ -58,11 +58,10 @@ namespace Controllers.Controllers
         [HttpPost]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Gets city with given ID"
+            Summary = "Creates city with a given name"
             )]
-        [SwaggerResponse(201, null, typeof(City))]
-        [SwaggerResponse(401, "Unauthorized", typeof(string))]
-        [SwaggerResponse(404, "City not found", typeof(Exception))]
+        [SwaggerResponse(201, "City was created", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         public async Task<ActionResult<City>> PostCity(string cityName)
         {
             var newCity = await _cityService.AddCity(cityName);
