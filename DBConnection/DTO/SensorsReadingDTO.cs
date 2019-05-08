@@ -6,6 +6,7 @@ namespace DBConnection.DTO
     {
         public int Id { get; set; }
         public string NearestBeaconId { get; set; }
+        public int UserId { get; set; }
 
         public double? Ax { get; set; }
         public double? Ay { get; set; }

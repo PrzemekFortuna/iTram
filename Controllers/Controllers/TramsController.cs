@@ -9,6 +9,7 @@ using DBConnection;
 using DBConnection.Entities;
 using Services;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Controllers.Controllers
 {

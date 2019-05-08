@@ -68,7 +68,7 @@ namespace Services
                 if (!TryToHandleSensorsReading(sensorsReading))
                     return false;
                 sensorsReading.TimeStamp = DateTime.Now;
-                sensorsReading.UserId = 1; // todo: once authorization works, fetch id from session
+                //sensorsReading.UserId = 1; // todo: once authorization works, fetch id from session
             }
 
             await Context.AddRangeAsync(readings);
