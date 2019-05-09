@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBConnection.DTO;
 using DBConnection.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Swashbuckle.AspNetCore.Annotations;
@@ -45,6 +46,7 @@ namespace Controllers.Controllers
         [SwaggerResponse(201, "Sensors' reading added", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [Authorize]
         [HttpPost("new")]
         public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
@@ -67,6 +69,7 @@ namespace Controllers.Controllers
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("multiple-new")]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReading)
         {
             if (!ModelState.IsValid)

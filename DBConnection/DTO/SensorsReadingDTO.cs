@@ -6,7 +6,6 @@ namespace DBConnection.DTO
     {
         public int Id { get; set; }
         public string NearestBeaconId { get; set; }
-        public int UserId { get; set; }
 
         public double? Ax { get; set; }
         public double? Ay { get; set; }
@@ -40,8 +39,8 @@ namespace DBConnection.DTO
          public double? RotationVecY { get; set; }
          public double? RotationVecZ { get; set; }
 
-        public float NumberOfSteps { get; set; }
-         public float StepDetector { get; set; }
+        public float? NumberOfSteps { get; set; }
+        public float? StepDetector { get; set; }
 
         public double? Proximity { get; set; }
 

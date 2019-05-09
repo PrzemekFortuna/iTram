@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DBConnection;
 using DBConnection.DTO;
 using DBConnection.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Services.Handlers;
@@ -21,15 +23,17 @@ namespace Services
         private readonly AccelerometerHandler _accelerometerHandler;
         private readonly GyroscopeHandler _gyroscopeHandler;
         private readonly LocationHandler _locationHandler;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public TramContext Context { get; set; }
         public ModelStateDictionary ModelState;
         public SensorReadingService(TramContext context, IMapper mapper, AccelerometerHandler accelerometerHandler,
-            GyroscopeHandler gyroscopeHandler, LocationHandler locationHandler)
+            GyroscopeHandler gyroscopeHandler, LocationHandler locationHandler, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _accelerometerHandler = accelerometerHandler;
             _gyroscopeHandler = gyroscopeHandler;
             _locationHandler = locationHandler;
+            _httpContextAccessor = httpContextAccessor;
             Context = context;
         }
 
@@ -51,8 +55,6 @@ namespace Services
             if (!TryToHandleSensorsReading(reading))
                 return false;
 
-            reading.TimeStamp = DateTime.Now;
-            reading.UserId = 1; // todo: once authorization works, fetch id from session
             var sr = await Context.SensorsReadings.AddAsync(reading);
             await Context.SaveChangesAsync();
 
@@ -67,8 +69,7 @@ namespace Services
             {
                 if (!TryToHandleSensorsReading(sensorsReading))
                     return false;
-                sensorsReading.TimeStamp = DateTime.Now;
-                //sensorsReading.UserId = 1; // todo: once authorization works, fetch id from session
+
             }
 
             await Context.AddRangeAsync(readings);
@@ -97,6 +98,10 @@ namespace Services
                 if (result == null)
                     return false;
             }
+
+            sensorsReading.TimeStamp = DateTime.Now;
+            sensorsReading.UserId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
 
             return true;
         }

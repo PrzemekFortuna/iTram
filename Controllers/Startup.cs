@@ -9,6 +9,7 @@ using DBConnection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -77,6 +78,7 @@ namespace Controllers
             services.AddSingleton(CreateAccelerometerHandlers());
             services.AddSingleton(CreateLocationHandler());
             services.AddSingleton(CreateGyroscopeHandlers());
+            services.AddHttpContextAccessor();
 
             services.AddSwaggerGen(c =>
             {

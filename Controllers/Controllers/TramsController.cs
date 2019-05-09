@@ -54,7 +54,6 @@ namespace Controllers.Controllers
         [SwaggerResponse(400, "No city id provided", typeof(ArgumentNullException))]
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [SwaggerResponse(404, "Trams not found", typeof(string))]
-        [HttpGet("{id}")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tram>>> GetTramsForCity([FromQuery] int cityId)
         {
