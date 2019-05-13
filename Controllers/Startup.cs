@@ -46,7 +46,7 @@ namespace Controllers
 
             var appSettingsSection = Configuration.GetSection("JWT");
             services.Configure<AppSettings>(appSettingsSection);
-
+            services.Configure<BeaconTokenSettings>(Configuration.GetSection("BeaconToken"));
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -79,6 +79,8 @@ namespace Controllers
             services.AddSingleton(CreateLocationHandler());
             services.AddSingleton(CreateGyroscopeHandlers());
             services.AddHttpContextAccessor();
+            services.AddHostedService<ConsumeScopedServiceHostedService>();
+            services.AddScoped<BeaconTokenService>();
 
             services.AddSwaggerGen(c =>
             {
