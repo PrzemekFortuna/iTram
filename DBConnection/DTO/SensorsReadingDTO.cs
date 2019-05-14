@@ -6,6 +6,7 @@ namespace DBConnection.DTO
     {
         public int Id { get; set; }
         public string NearestBeaconId { get; set; }
+        public DateTime TimeStamp { get; set; }
 
         public double? Ax { get; set; }
         public double? Ay { get; set; }
@@ -19,25 +20,25 @@ namespace DBConnection.DTO
 
         public double? Pressure { get; set; }
 
-         public double? GameRotationVecX { get; set; }
-         public double? GameRotationVecY { get; set; }
-         public double? GameRotationVecZ { get; set; }
+        public double? GameRotationVecX { get; set; }
+        public double? GameRotationVecY { get; set; }
+        public double? GameRotationVecZ { get; set; }
 
-         public double? MagneticFieldX { get; set; }
-         public double? MagneticFieldY { get; set; }
-         public double? MagneticFieldZ { get; set; }
+        public double? MagneticFieldX { get; set; }
+        public double? MagneticFieldY { get; set; }
+        public double? MagneticFieldZ { get; set; }
 
-         public double? GeomagneticRotationVecX { get; set; }
-         public double? GeomagneticRotationVecY { get; set; }
-         public double? GeomagneticRotationVecZ { get; set; }
+        public double? GeomagneticRotationVecX { get; set; }
+        public double? GeomagneticRotationVecY { get; set; }
+        public double? GeomagneticRotationVecZ { get; set; }
 
-         public double? GravityX { get; set; }
-         public double? GravityY { get; set; }
-         public double? GravityZ { get; set; }
+        public double? GravityX { get; set; }
+        public double? GravityY { get; set; }
+        public double? GravityZ { get; set; }
 
-         public double? RotationVecX { get; set; }
-         public double? RotationVecY { get; set; }
-         public double? RotationVecZ { get; set; }
+        public double? RotationVecX { get; set; }
+        public double? RotationVecY { get; set; }
+        public double? RotationVecZ { get; set; }
 
         public float? NumberOfSteps { get; set; }
         public float? StepDetector { get; set; }
@@ -46,7 +47,7 @@ namespace DBConnection.DTO
 
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        
+
         public int? BatteryLevel { get; set; }
 
         public bool? ImInTram { get; set; }

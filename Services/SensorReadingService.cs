@@ -99,7 +99,6 @@ namespace Services
                     return false;
             }
 
-            sensorsReading.TimeStamp = DateTime.Now;
             sensorsReading.UserId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
 
