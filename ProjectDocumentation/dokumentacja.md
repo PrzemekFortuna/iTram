@@ -78,29 +78,40 @@ Endpointy opisane są na stronie: [http://itram.azurewebsites.net](http://itram.
 ## 4. Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
 Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. <br/>
-Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/>
+Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/> <br/>
 Aplikacja wykorzystuje następujące dane telemetryczne:
-- coś
-- coś
-- coś
+- nazwa użytkownika
+- aktualna data
+- ID najbliższego beacona
+- przyśpieszenie XYZ + jednostka
+- żyroskop XYZ + jednostka
+- długość i szerokość geograficzna
+- poziom naładowania baterii
+- liczba kroków
+- siła grawitacji XYZ + jednostka
+- poziom oświetlenia otoczenia
+- ciśnienie
+- otaczające pole geomagnetyczne XYZ
+- bliskość obiektu względem ekranu widoku urządzenia (CM)
+- flagę czy jest się w tramwaju
 
-### Instrukcja użytkownika
+#### Instrukcja użytkownika
 | *Ekran* | *Nazwa ekranu* | *Opis* |
 |:--:|:--:|:--:| 
-|<img src="MobileApp/1-register.png" height="450"></img>| *1. Ekran rejestracji* | *W przypadku, jeśli użytkownik korzysta z aplikacji pierwszy raz, niezbędne jest by dokonał rejestracji.* |
-|<img src="MobileApp/2-login.png" height="450"></img>| *2. Ekran logowania* | *Użytkownik, który posiada swoje konto, może zalogować się do aplikacji, by móc korzystać z reszty funkcjonalności* |
-|<img src="MobileApp/3-main_page.png" height="450"></img>| *3. Ekran z listą dostępnych beaconów* | *Ekran pokazuję wszystkie dostępne beacony w najbliższym otoczeniu.* |
-|<img src="MobileApp/4-beacon_info.png" height="450"></img>| *4. Ekran z informacjami o beaconie* | *Wybierając beacon z listy, użytkownik może sprawdzić bardziej dokładne informacje o nim.* |
-|<img src="MobileApp/5-sensors.png" height="450"></img>| *5. Ekran pobierania danych telemetrycznych* | *Wybierając przycisk "SENSORS" na ekranie 3. użytkownik zaczyna pobierać dane telemetryczne, które z pewną częstotliwością zostają wysyłane na serwer.* |
+|<img src="MobileApp/1-register.png" width="450"></img>| *1. Ekran rejestracji* | *W przypadku, jeśli użytkownik korzysta z aplikacji pierwszy raz, niezbędne jest by dokonał rejestracji.* |
+|<img src="MobileApp/2-login.png" width="450"></img>| *2. Ekran logowania* | *Użytkownik, który posiada swoje konto, może zalogować się do aplikacji, by móc korzystać z reszty funkcjonalności* |
+|<img src="MobileApp/3-main_page.png" width="450"></img>| *3. Ekran z listą dostępnych beaconów* | *Ekran pokazuję wszystkie dostępne beacony w najbliższym otoczeniu.* |
+|<img src="MobileApp/4-beacon_info.png" width="450"></img>| *4. Ekran z informacjami o beaconie* | *Wybierając beacon z listy, użytkownik może sprawdzić bardziej dokładne informacje o nim.* |
+|<img src="MobileApp/5-sensors.png" width="450"></img>| *5. Ekran pobierania danych telemetrycznych* | *Wybierając przycisk "SENSORS" na ekranie 3. użytkownik zaczyna pobierać dane telemetryczne, które z pewną częstotliwością zostają wysyłane na serwer.* |
 
 ``` diff
 + Zmodyfikować screen 3. (żeby były pokazane jakieś beacony)
 + Zmodyfikować screen 4. z informacjami o jednym beaconie
++
++ Dodać diagram klas UML
++ Sprawdzić poprawność danych telemetrycznych
 ```
 
-``` diff
-+ Dodać diagram klas UML
-```
 ## 5. Sieć neuronowa<a name="5"></a>
 Link do repozytorium: <a href="https://github.com/kpilcicki/problem-workshop-net-poc">https://github.com/kpilcicki/problem-workshop-net-poc</a> <br/>
 Sieć neuronowa ma na celu, na podstawie otrzymanych od aplikacji mobilnej danych, określić czy dana osoba znjaduje się wewnątrz pojazdu komunikacji miejskiej. Docelowo aplikacja zostanie zintegrowana z serwerem.<br/>
