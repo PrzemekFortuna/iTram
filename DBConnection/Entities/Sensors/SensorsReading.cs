@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DBConnection.Entities.Sensors;
 
-namespace DBConnection.Entities
+namespace DBConnection.Entities.Sensors
 {
     public class SensorsReading
     {

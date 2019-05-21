@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DBConnection.DTO;
 using DBConnection.Entities;
+using DBConnection.Entities.Sensors;
 
 namespace Services.Helpers
 {
