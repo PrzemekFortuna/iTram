@@ -8,6 +8,7 @@ using AutoMapper;
 using DBConnection;
 using DBConnection.DTO;
 using DBConnection.Entities;
+using DBConnection.Entities.Sensors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -24,16 +25,19 @@ namespace Services
         private readonly GyroscopeHandler _gyroscopeHandler;
         private readonly LocationHandler _locationHandler;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ModelsManager.ModelsManager _modelsManager;
         public TramContext Context { get; set; }
         public ModelStateDictionary ModelState;
         public SensorReadingService(TramContext context, IMapper mapper, AccelerometerHandler accelerometerHandler,
-            GyroscopeHandler gyroscopeHandler, LocationHandler locationHandler, IHttpContextAccessor httpContextAccessor)
+            GyroscopeHandler gyroscopeHandler, LocationHandler locationHandler, IHttpContextAccessor httpContextAccessor,
+            ModelsManager.ModelsManager modelsManager)
         {
             _mapper = mapper;
             _accelerometerHandler = accelerometerHandler;
             _gyroscopeHandler = gyroscopeHandler;
             _locationHandler = locationHandler;
             _httpContextAccessor = httpContextAccessor;
+            _modelsManager = modelsManager;
             Context = context;
         }
 
@@ -61,7 +65,7 @@ namespace Services
             return true;
         }
 
-      
+
         public async Task<bool> AddAllAsync(IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
         {
             var readings = _mapper.Map<IEnumerable<SensorsReading>>(sensorsReadings).ToList();
@@ -76,6 +80,18 @@ namespace Services
             await Context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<bool?> AmIInTram(IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
+        {
+            var readings = _mapper.Map<IEnumerable<SensorsReading>>(sensorsReadings).ToList();
+            foreach (var sensorsReading in readings)
+            {
+                if (!TryToHandleSensorsReading(sensorsReading))
+                    return null;
+            }
+
+            return await _modelsManager.IsInTram(readings);
         }
 
         private bool TryToHandleSensorsReading(SensorsReading sensorsReading)

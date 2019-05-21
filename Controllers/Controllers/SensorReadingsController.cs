@@ -48,7 +48,7 @@ namespace Controllers.Controllers
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [Authorize]
         [HttpPost("new")]
-        public async Task<IActionResult> Post([FromBody] SensorsReadingUnitsDTO sensorsReading)
+        public async Task<IActionResult> PostSensorsReading([FromBody] SensorsReadingUnitsDTO sensorsReading)
         {
             if (!ModelState.IsValid)
             {
@@ -70,18 +70,41 @@ namespace Controllers.Controllers
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("multiple-new")]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReading)
+        public async Task<IActionResult> PostSensorsReadings([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var res = await _sensorReadingService.AddAllAsync(sensorsReading);
+            var res = await _sensorReadingService.AddAllAsync(sensorsReadings);
             if (!res)
                 return BadRequest();
 
             return Created($"api/sensorsreadings/", null);
+        }
+
+
+        [SwaggerOperation(
+            Summary = "Verify whether user is in tram"
+        )]
+        [SwaggerResponse(200, "Reply returned", typeof(string))]
+        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
+        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [HttpPost("amiintram")]
+        [Authorize]
+        public async Task<IActionResult> AmIInTram([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var res = await _sensorReadingService.AmIInTram(sensorsReadings);
+            if (res == null)
+                return BadRequest();
+
+            return Ok(new { AmIInTram = res.Value });
         }
     }
 }
