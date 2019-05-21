@@ -24,6 +24,10 @@ using Services.Handlers.Accelerometer;
 using Services.Handlers.Gyroscope;
 using Services.Handlers.Location;
 using Services.Helpers;
+using Services.ModelsManager;
+using Services.ModelsManager.Metrics;
+using Services.ModelsManager.Models;
+using Services.ModelsManager.Models.Base;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Controllers
@@ -81,6 +85,14 @@ namespace Controllers
             services.AddHttpContextAccessor();
             services.AddHostedService<ConsumeScopedServiceHostedService>();
             services.AddScoped<BeaconTokenService>();
+            services.AddSingleton<ModelsManager>();
+            
+            // Models
+            
+            services.AddSingleton<INeuralModel, NeuralModelA>();
+            services.AddSingleton<INeuralModel, NeuralModelB>();
+            //services.AddSingleton<INeuralModel, NeuralNetworkNeuralModel>();
+            services.AddSingleton<IMetric, HighestCertainty>();
 
             services.AddSwaggerGen(c =>
             {
