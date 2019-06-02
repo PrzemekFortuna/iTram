@@ -24,11 +24,13 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Get beacon tokens for current day"
+            Summary = "Pobiera tokeny na dany dzień. W tym momencie generowane jest 48 tokenów" +
+                      "co 24 godziny. Każdy z nich jest ważny przez 30 minut i są zwracane w postaci" +
+                      "tablicy bajtów."
         )]
-        [SwaggerResponse(200, "Success", typeof(IEnumerable<BeaconTokenDto>))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "No beacon tokens were found", typeof(string))]
+        [SwaggerResponse(200, "Sukces", typeof(IEnumerable<BeaconTokenDto>))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono tokenów", typeof(string))]
         [HttpGet]
         public async Task<IActionResult> Get()
         {

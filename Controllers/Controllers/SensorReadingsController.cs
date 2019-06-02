@@ -24,11 +24,11 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Gets all sensors' readings"
+            Summary = "Pobiera wszystkie znajdujące się w bazie danych odczyty z sensorów."
         )]
-        [SwaggerResponse(200, "Success", typeof(IEnumerable<SensorsReadingDTO>))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "No readings were found", typeof(string))]
+        [SwaggerResponse(200, "Sukces", typeof(IEnumerable<SensorsReadingDTO>))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono żadnych odczytów", typeof(string))]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -41,11 +41,14 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Save one sensors' reading to database"
+            Summary = "Zapisuje pojedynczy odczyt do bazy danych." +
+                      "W przypadku gdy jednostka w której podany jest odczyt nie jest" +
+                      "zgodna z tą przechowywaną w bazie danych, jest ona dostosowana" +
+                      "pod warunkiem istnienia odpowiedniego konwertera."
         )]
-        [SwaggerResponse(201, "Sensors' reading added", typeof(string))]
-        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Dodano odczyt", typeof(string))]
+        [SwaggerResponse(400, "Struktura zapytania była niewłaściwa", typeof(string))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         [Authorize]
         [HttpPost("new")]
         public async Task<IActionResult> PostSensorsReading([FromBody] SensorsReadingUnitsDTO sensorsReading)
@@ -63,11 +66,14 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Save one or more sensors' reading to database"
+            Summary = "Zapisuje tablicę odczytów do bazy danych." +
+                      "W przypadku gdy jednostka w której podany jest odczyt nie jest" +
+                      "zgodna z tą przechowywaną w bazie danych, jest ona dostosowana" +
+                      "pod warunkiem istnienia odpowiedniego konwertera."
         )]
-        [SwaggerResponse(201, "Sensors' readings added", typeof(string))]
-        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Dodano odczyty", typeof(string))]
+        [SwaggerResponse(400, "Struktura zapytania była niewłaściwa", typeof(string))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         [HttpPost("multiple-new")]
         [Authorize]
         public async Task<IActionResult> PostSensorsReadings([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
@@ -86,7 +92,9 @@ namespace Controllers.Controllers
 
 
         [SwaggerOperation(
-            Summary = "Verify whether user is in tram"
+            Summary = "Określa czy użytkownik znajduje się w pojeździe komunikacji miejskiej" +
+                      "poprzez użycie określonych z góry modeli sieci neuronowych. Jako prawidłowa" +
+                      "pod uwagę brana jest odpowiedź o największej \"pewności\"."
         )]
         [SwaggerResponse(200, "Reply returned", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]

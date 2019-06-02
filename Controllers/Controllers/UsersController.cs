@@ -27,12 +27,12 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Gets user with given ID"
+            Summary = "Pobiera użytkownika o danym id"
          )]
-        [SwaggerResponse(200, "User was found", typeof(User))]
-        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "User not found", typeof(Exception))]
+        [SwaggerResponse(200, "Sukces", typeof(User))]
+        [SwaggerResponse(400, "Niewłaściwa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono użytkownika", typeof(Exception))]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -55,11 +55,11 @@ namespace Controllers.Controllers
         }
 
         [SwaggerOperation(
-            Summary = "Registers new user"
+            Summary = "Rejestruje nowego użytkownika"
          )]
-        [SwaggerResponse(201, "User was created", typeof(string))]
-        [SwaggerResponse(400, "Request structure was wrong", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Sukces", typeof(string))]
+        [SwaggerResponse(400, "Niewłaściwa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("register")]
@@ -80,11 +80,12 @@ namespace Controllers.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Grants JWT token")
+            Summary = "Po podaniu prawidłowego loginu i hasła zwraca token," +
+                      "który umożliwia użytkownikowi na wykonywanie akcji," +
+                      "które wymagają autoryzacji.")
         ]
-        [SwaggerResponse(200, "JWT token")]
-        [SwaggerResponse(400, "Request structure was wrong", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(200, "sukces")]
+        [SwaggerResponse(400, "Niewłaściwa sturktura zapytania", typeof(ArgumentNullException))]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
         {

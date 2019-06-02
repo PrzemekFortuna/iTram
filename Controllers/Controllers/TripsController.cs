@@ -30,12 +30,12 @@ namespace Controllers.Controllers
         [HttpGet("{id}")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Gets trip with given ID"
+            Summary = "Pobiera przejazd o podanym id"
             )]
-        [SwaggerResponse(200, "Trip was found", typeof(TripResDTO))]
-        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "Trip not found", typeof(Exception))]
+        [SwaggerResponse(200, "Sukces", typeof(TripResDTO))]
+        [SwaggerResponse(400, "Niewłaściwa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono przejazdu", typeof(Exception))]
         public async Task<ActionResult<TripResDTO>> GetTrip(int id)
         {
             var trip = await _tripService.GetTrip(id);
@@ -52,12 +52,12 @@ namespace Controllers.Controllers
         [HttpGet]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Gets trips for user"
+            Summary = "Pobiera przejazdy dla użytkownika"
             )]
-        [SwaggerResponse(200, "Trips were found", typeof(IEnumerable<TripResDTO>))]
-        [SwaggerResponse(400, "No user id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "No trips for given user", typeof(string))]
+        [SwaggerResponse(200, "Sukces", typeof(TripResDTO))]
+        [SwaggerResponse(400, "Niewłaściwa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono przejazdów", typeof(Exception))]
         public async Task<ActionResult<IEnumerable<TripResDTO>>> GetTripsForUser([FromQuery] int userId)
         {
             var trips = await _tripService.GetTripsForUser(userId);
@@ -71,11 +71,11 @@ namespace Controllers.Controllers
         [HttpPost]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Adds trip"
+            Summary = "Dodaje nowy przejazd (rozpoczęty, ale jeszcze nie zakończony)"
             )]
-        [SwaggerResponse(201, "Trip created", typeof(TripResDTO))]
-        [SwaggerResponse(400, "There is already an active trip for this user", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Sukces", typeof(TripResDTO))]
+        [SwaggerResponse(400, "Użytkownik miał już aktywny przejazd", typeof(string))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         public async Task<ActionResult<Trip>> PostTrip(TripReqDTO tripDTO)
         {
             try
@@ -93,11 +93,13 @@ namespace Controllers.Controllers
         [HttpPatch("finish")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Finishes trip for user and returns its cost"
+            Summary = "Kończy przejazd użytkownika. Obliczana jest długość przejazdu" +
+                      "oraz zwracany jest jego koszt obliczony jako" +
+                      "ilość przejechanych minut * 0.10zł."
             )]
-        [SwaggerResponse(200, "Trip finished", typeof(decimal))]
-        [SwaggerResponse(400, "There is no active trip for this user", typeof(InvalidOperationException))]
-        [SwaggerResponse(401, "Unauthorized", typeof(string))]
+        [SwaggerResponse(200, "Sukces", typeof(decimal))]
+        [SwaggerResponse(400, "Użytkownik nie ma aktywnego przejazdu", typeof(InvalidOperationException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         public async Task<ActionResult> FinishTrip([FromQuery] int userId)
         {
             try
