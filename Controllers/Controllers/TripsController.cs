@@ -93,17 +93,17 @@ namespace Controllers.Controllers
         [HttpPatch("finish")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Finishes trip for user"
+            Summary = "Finishes trip for user and returns its cost"
             )]
-        [SwaggerResponse(200)]
+        [SwaggerResponse(200, "Trip finished", typeof(decimal))]
         [SwaggerResponse(400, "There is no active trip for this user", typeof(InvalidOperationException))]
         [SwaggerResponse(401, "Unauthorized", typeof(string))]
         public async Task<ActionResult> FinishTrip([FromQuery] int userId)
         {
             try
             {
-                await _tripService.FinishTrip(userId);
-                return Ok();
+                var cost = await _tripService.FinishTrip(userId);
+                return Ok(new { Cost = cost });
             }
             catch(InvalidOperationException exp)
             {

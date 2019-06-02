@@ -13,6 +13,7 @@ namespace Services
 {
     public class TripService
     {
+        private static decimal costPerMinute = 0.1m;
         private TramContext _context;
         private IMapper _mapper;
 
@@ -58,7 +59,7 @@ namespace Services
             return _mapper.Map<TripResDTO>(tr);
         }
 
-        public async Task FinishTrip(int userId)
+        public async Task<decimal> FinishTrip(int userId)
         {
             var tripExists = await ActiveTripForUserExists(userId);
             if (!tripExists)
@@ -66,7 +67,12 @@ namespace Services
 
             var trip = await _context.Trips.SingleAsync(t => t.UserId == userId && t.IsFinished == false);
             trip.IsFinished = true;
+            trip.FinishTime = DateTime.Now;
+
+            var cost = (trip.FinishTime - trip.StartTime).Minutes * costPerMinute;
             await _context.SaveChangesAsync();
+
+            return cost;
         }
 
         private async Task<bool> ActiveTripForUserExists(int userId)
