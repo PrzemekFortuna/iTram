@@ -11,6 +11,7 @@ namespace DBConnection.Entities
         public int TripId { get; set; }
 
         public DateTime StartTime { get; set; }
+        public DateTime FinishTime { get; set; }
         public float Length { get; set; }
         public bool IsFinished { get; set; }
 
