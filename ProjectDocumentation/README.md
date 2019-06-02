@@ -79,20 +79,20 @@ Endpointy opisane są na stronie: [http://itram.azurewebsites.net](http://itram.
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
 Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. <br/>
 Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/> <br/>
-Aplikacja wykorzystuje następujące dane telemetryczne:
+Aplikacja zbiera następujące dane:
 - nazwa użytkownika
 - aktualna data
 - ID najbliższego beacona
-- przyśpieszenie XYZ + jednostka
-- żyroskop XYZ + jednostka
+- przyśpieszenie
+- żyroskop
 - długość i szerokość geograficzna
 - poziom naładowania baterii
 - liczba kroków
-- siła grawitacji XYZ + jednostka
+- siła grawitacji
 - poziom oświetlenia otoczenia
 - ciśnienie
-- otaczające pole geomagnetyczne XYZ
-- bliskość obiektu względem ekranu widoku urządzenia (CM)
+- otaczające pole geomagnetyczne
+- bliskość obiektu względem ekranu widoku urządzenia
 - flagę czy jest się w tramwaju
 
 #### Instrukcja użytkownika
@@ -104,13 +104,10 @@ Aplikacja wykorzystuje następujące dane telemetryczne:
 |<img src="MobileApp/4-beacon_info.png" width="450"></img>| *4. Ekran z informacjami o beaconie* | *Wybierając beacon z listy, użytkownik może sprawdzić bardziej dokładne informacje o nim.* |
 |<img src="MobileApp/5-sensors.png" width="450"></img>| *5. Ekran pobierania danych telemetrycznych* | *Wybierając przycisk "SENSORS" na ekranie 3. użytkownik zaczyna pobierać dane telemetryczne, które z pewną częstotliwością zostają wysyłane na serwer.* |
 
-``` diff
-+ Zmodyfikować screen 3. (żeby były pokazane jakieś beacony)
-+ Zmodyfikować screen 4. z informacjami o jednym beaconie
-+
-+ Dodać diagram klas UML
-+ Sprawdzić poprawność danych telemetrycznych
-```
+#### Diagram klas UML
+|<img src="MobileApp/uml.png"></img>|
+|:--:| 
+| *Diagram klas aplikacji mobilnej* |
 
 ## 5. Sieć neuronowa<a name="5"></a>
 Link do repozytorium: <a href="https://github.com/kpilcicki/problem-workshop-net-poc">https://github.com/kpilcicki/problem-workshop-net-poc</a> <br/>
