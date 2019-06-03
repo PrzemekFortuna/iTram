@@ -1,8 +1,11 @@
 # Inteligentny tramwaj
 ## Spis treści
 1. [Opis projektu](#1)
+
 1.1 [Schemat komponentów](#1.1)
+
 1.2 [Szczegółowy schemat komponentów](#1.2)
+
 2. [Skład zespołu](#2)
 3. [Komponent 3. - Baza danych i serwer aplikacyjny](#3)
 4. [Komponent 2. - Aplikacja mobilna](#4)
@@ -21,13 +24,15 @@ System będzie składał się z urządzeń beacon znajdującyh się w pojazdach 
 | *Diagram przedstawiający działanie systemu* |
 
 ## 1.2 Szczegółowy schemat komponentów <a name="1.2"></a>
-|<img src="Components Tram.jpg" height="560"></img>|
+Poniżej został przedstawiony schemat komponentów tworzących system Inteligentny Tramwaj, który składa się z trzech głównych komponentów, które to w sposób szczególowy zostały opisane w niniejszej dokumentacji.
+
+|<img src="Components Tram.jpg" height="760"></img>|
 |:--:| 
 | *Szczegółowy diagram trzech komponentów tworzących inteligentny tramwaj* |
 
 1. *Component 1 - Device in tram* - odpowiada za urządzenie znajdujące się w tramwaju, tj. Rasspberry Pi z modułem GPS potrzebnym do ustalenia lokalizacji pasażera korzystającego z systemu oraz podłączonego do urządzenia modułu Beacon, który w sposób ciągły wysyła do urządzeń klientów odpowiednie dane umożliwiające korzystanie z systemu intelignetnego tramwaju. 
 
-2. *Component 2 - Mobile Application* (#3) - aplikacja mobilna zainstalowana na urządzeniach klientów, która umożliwia dzięku modułowi Bluetooth na komunikację z zainstalowanym w tramwaju Beacon'ie oraz ustaleniu odpowiednio czasu jazdy klienta oraz to czy klient znajduje się na pokładzie tramwaju.
+2. *Component 2 - Mobile Application* - aplikacja mobilna zainstalowana na urządzeniach klientów, która umożliwia dzięku modułowi Bluetooth na komunikację z zainstalowanym w tramwaju Beacon'ie oraz ustaleniu odpowiednio czasu jazdy klienta oraz to czy klient znajduje się na pokładzie tramwaju.
 
 3. *Component 3 - Application Server* - Aplikacja do której trafiają dane klientów poprzez aplikację mobilną - konieczne jest połączenie z internetem, żeby aplikacja mobilna mogła takie dany wysyłać na serwer. Serwer aplikacji zbiera dane oraz przechowuje je w bazie danych, dodatkowo serwer aplikacji jest zintegrowany z siecią neuronową, która odpowiada za ustalenie czy pasażer korzystający z systemu inteligentnego tramwaju znajduje się wewnątrz pojazdu.
 
@@ -85,9 +90,11 @@ Aplikacja korzysta z bazy danych *Microsoft SQL* znajdującej się w chmurze *Mi
 Link do repozytorium: [https://github.com/PrzemekFortuna/iTram](https://github.com/PrzemekFortuna/iTram)<br/>
 Do komunikacji z aplikacją mobilną i przetwarzania pozyskanych danych utworzono serwer aplikacyjny w technologii *ASP.NET Core*.
 API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)<br/>
-``` diff
-+ Dodać diagram klas UML
-```
+
+#### Diagram klas UML
+<img src="wykres klas iTram.png" height="500"></img>
+| *Diagram powiązań klas wewnątrz aplikacji iTram* |
+
 
 #### Dostępne endpointy:
 Endpointy opisane są na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
