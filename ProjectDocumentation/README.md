@@ -1,19 +1,38 @@
 # Inteligentny tramwaj
 ## Spis treści
 1. [Opis projektu](#1)
+1.1 [Schemat komponentów](#1.1)
+1.2 [Szczegółowy schemat komponentów](#1.2)
 2. [Skład zespołu](#2)
-3. [Baza danych i serwer aplikacyjny](#3)
-4. [Aplikacja mobilna](#4)
+3. [Komponent 3. - Baza danych i serwer aplikacyjny](#3)
+4. [Komponent 2. - Aplikacja mobilna](#4)
 5. [Sieć neuronowa](#5)
 6. [Technologia beacon](#6)
+7. [Komponent 1. - Urządzenie w tramwaju](#7)
 ## 1. Opis projektu<a name="1"></a>
 Celem projektu ***Inteligentny tramwaj*** jest stworzenie systemu informatycznego, który umożliwi naliczanie opłat za korzystanie z usług transportowych w sposób jak najbardziej intuicyjny i korzystny dla użytkowników komunikacji miejskiej.<br/>
-System będzie składał się z urządzeń beacon znajdującyh się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. Poszczególne komponenty zostały opisane w stosownych rozdziałach.
+System będzie składał się z urządzeń beacon znajdującyh się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. 
 <br/>
+
+## 1.1 Schemat komponentów <a name="1.1"></a>
 
 |<img src="graf.jpg" height="500"></img>|
 |:--:| 
 | *Diagram przedstawiający działanie systemu* |
+
+## 1.2 Szczegółowy schemat komponentów <a name="1.2"></a>
+|<img src="Components Tram.jpg" height="560"></img>|
+|:--:| 
+| *Szczegółowy diagram trzech komponentów tworzących inteligentny tramwaj* |
+
+1. *Component 1 - Device in tram* - odpowiada za urządzenie znajdujące się w tramwaju, tj. Rasspberry Pi z modułem GPS potrzebnym do ustalenia lokalizacji pasażera korzystającego z systemu oraz podłączonego do urządzenia modułu Beacon, który w sposób ciągły wysyła do urządzeń klientów odpowiednie dane umożliwiające korzystanie z systemu intelignetnego tramwaju. 
+
+2. *Component 2 - Mobile Application* (#3) - aplikacja mobilna zainstalowana na urządzeniach klientów, która umożliwia dzięku modułowi Bluetooth na komunikację z zainstalowanym w tramwaju Beacon'ie oraz ustaleniu odpowiednio czasu jazdy klienta oraz to czy klient znajduje się na pokładzie tramwaju.
+
+3. *Component 3 - Application Server* - Aplikacja do której trafiają dane klientów poprzez aplikację mobilną - konieczne jest połączenie z internetem, żeby aplikacja mobilna mogła takie dany wysyłać na serwer. Serwer aplikacji zbiera dane oraz przechowuje je w bazie danych, dodatkowo serwer aplikacji jest zintegrowany z siecią neuronową, która odpowiada za ustalenie czy pasażer korzystający z systemu inteligentnego tramwaju znajduje się wewnątrz pojazdu.
+
+Poszczególne komponenty zostały opisane w stosownych rozdziałach.
+
 ```diff
 + Dodać diagram sekwencji (lub diagramy dla poszczegónych elementów systemu??)
 ```
@@ -52,7 +71,7 @@ System będzie składał się z urządzeń beacon znajdującyh się w pojazdach 
 ### Dokumentacja:
 - Jan Kisielewicz
 - Mateusz Wadlewski<br/><br/><br/>
-## 3. Baza danych i serwer aplikacyjny<a name="3"></a>
+## 3. Komponent 3 - Baza danych i serwer aplikacyjny<a name="3"></a>
 Aplikacja korzysta z bazy danych *Microsoft SQL* znajdującej się w chmurze *Microsoft Azure*. Strukturę bazy prezentuje poniższy diagram.
 ```diff
 - W związku ze zmianą bazy zmienić opis i diagram encji
@@ -75,7 +94,7 @@ Endpointy opisane są na stronie: [http://itram.azurewebsites.net](http://itram.
 ``` diff
 + Opisać brakujące endpointy w swaggerze
 ```
-## 4. Aplikacja mobilna<a name="4"></a>
+## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
 Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. <br/>
 Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/> <br/>
@@ -125,4 +144,15 @@ W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, kt
 + Dodać diagram prezentujący informacje o zabezpieczeniach
 + Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
 ```
+
+## 7. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
+Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi Beacon jest w stanie dostaczyć dane kleintów do celów daleszgo przetwarzania podróży.
+
+#### Funkcjonalności: ####
+- Dostarczenie danych klientów do systemu w celu ich dalszego przetwarzania.
+
+|<img src="device in tram.jpg" height="440"></img>|
+
+
+
 ## Miejsce na uwagi:
