@@ -137,12 +137,17 @@ Aplikacja zbiera następujące dane:
 
 ## 5. Sieć neuronowa<a name="5"></a>
 Link do repozytorium: <a href="https://github.com/kpilcicki/problem-workshop-net-poc">https://github.com/kpilcicki/problem-workshop-net-poc</a> <br/>
-Sieć neuronowa ma na celu, na podstawie otrzymanych od aplikacji mobilnej danych, określić czy dana osoba znjaduje się wewnątrz pojazdu komunikacji miejskiej. Docelowo aplikacja zostanie zintegrowana z serwerem.<br/>
+Sieć neuronowa ma na celu, na podstawie danych otrzymanych od aplikacji mobilnej, określić czy dana osoba znjaduje się wewnątrz pojazdu komunikacji miejskiej. Docelowo aplikacja zostanie zintegrowana z serwerem. Aplikacja składa się z 3 modeli, na wejściu otrzymujemy wszystkie dane z sensorów, następnie filtrujemy je, aby sieć otrzymywała na wejściu tylko wybrane dane, w naszym przypadku to dane z akcelerometru i żyroskopu. Po przefiltrowaniu danych przechodzą przez trzy nauczone modele sieci, które na wyjściu dają odpowiedż w postaci prawdopodobieństwa, że użytkownik jest w poruszającym się tramwaju, i po otrzymaniu wyników wyliczamy średnią.<br/>
 Sieć została przygotowana w języku programowania *Python* z wykorzystaniem frameworku *TensorFlow*.
-``` diff
-+ Dodać diagram klas UML po przeniesieniu na docelowy serwer
-+ Dodać wyniki testów (w przyszłości jak już będą)
-```
+
+|<img src="WorkingFiles/siecTest.JPG" height="500"></img>|
+|:--:| 
+| *Wykres przedstawiający testy do sieci neuronowej, trace 0: dokładność, trace 1: precyzja* |
+
+|<img src="WorkingFiles/model.JPG" height="500"></img>|
+|:--:| 
+| *Model sieci neuronowej* |
+
 
 ## 6. Technologia beacon<a name="6"></a>
 W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, które pobiera informacje nt. lokalizacji za pomocą modułu *GPS*. Następnie nadaje, korzystając z *Bluetooth*, sygnał składający się z *id* urządzenia oraz współrzędnych zapisanych w postaci `xxx.xxxxxx`, gdzie `x ∈ {0...9}`. Liczba dopełniana jest "`0`" z prawej strony oraz "`3`" z lewej strony.
