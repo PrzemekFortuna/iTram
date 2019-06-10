@@ -77,10 +77,8 @@ Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 - Jan Kisielewicz
 - Mateusz Wadlewski<br/><br/><br/>
 ## 3. Komponent 3 - Baza danych i serwer aplikacyjny<a name="3"></a>
-Aplikacja korzysta z bazy danych *Microsoft SQL* znajdującej się w chmurze *Microsoft Azure*. Strukturę bazy prezentuje poniższy diagram.
-```diff
-- W związku ze zmianą bazy zmienić opis i diagram encji
-```
+Aplikacja korzysta z bazy danych *PostgreSQL* znajdującej się w chmurze *Amazon Web Services*. Strukturę bazy prezentuje poniższy diagram.
+
 <br/>
 
 |![](db.jpg)|
@@ -97,10 +95,7 @@ API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://i
 
 
 #### Dostępne endpointy:
-Endpointy opisane są na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
-``` diff
-+ Opisać brakujące endpointy w swaggerze
-```
+Szczegółowy opis punktów dostępowych dostępny jest na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
 
 #### Generowanie tokenów bezpieczeństwa
 Tokeny generowane są raz dziennie oraz zapisywane w bazie danych. Na początku tej operacji z pliku konfiguracyjnego appsettings.json pobierane są następujące ustawienia:
@@ -117,7 +112,8 @@ TokenDurabilityInMinutes równe 30 oznacza że wygenerowane zostanie 48 tokenów
 
 Użycie pliku konfiguracyjnego pozwala zmienić omawiane parametry w każdym momencie bez rekompilacji kodu.
 
-
+#### Uwierzytelnienie i autoryzacja
+Za uwierzytelnienie użytkownika odpowiada klasa UserService. Jej metoda *Login* przyjmuje email oraz hasło użytkownika i w przypadku gdy w bazie danych istnieje użytkownik o podanych danych, tworzy nowy token [JWT](https://jwt.io) a następnie zwraca go użytkownikowi. Od tego momentu użytkownik jest traktowany jako uwierzytelniony i przy każdym żądaniu zobowiązany jest wysyłać otrzymany token w nagłówku HTTP co pozwala stwierdzić czy posiada on uprawnienia do wykonania danej akcji dostępnej w systemie.
 
 
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
