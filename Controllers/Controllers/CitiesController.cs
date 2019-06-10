@@ -29,12 +29,12 @@ namespace Controllers.Controllers
         [HttpGet("{id}")]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Gets city with given ID"
+            Summary = "Pobiera miasto o podanym id."
             )]
-        [SwaggerResponse(200, "City was found", typeof(City))]
-        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "City not found", typeof(Exception))]
+        [SwaggerResponse(200, "Znaleziono miasto", typeof(City))]
+        [SwaggerResponse(400, "Niewałściwa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono miasta", typeof(Exception))]
         public async Task<ActionResult<City>> GetCity(int id)
         {
             try
@@ -58,10 +58,10 @@ namespace Controllers.Controllers
         [HttpPost]
         [Produces("application/json")]
         [SwaggerOperation(
-            Summary = "Creates city with a given name"
+            Summary = "Tworzy miasto o podanej nazwie i zapisuje je w bazie danych."
             )]
-        [SwaggerResponse(201, "City was created", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Utworzono miasto", typeof(string))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         public async Task<ActionResult<City>> PostCity(string cityName)
         {
             var newCity = await _cityService.AddCity(cityName);

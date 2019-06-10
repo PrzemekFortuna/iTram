@@ -27,12 +27,12 @@ namespace Controllers.Controllers
 
         // GET: api/Trams/5
         [SwaggerOperation(
-            Summary = "Gets tram with given ID"
+            Summary = "Pobiera pojazd o podanym id."
         )]
-        [SwaggerResponse(200, "Tram was found", typeof(Tram))]
-        [SwaggerResponse(400, "No id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "Tram not found", typeof(Exception))]
+        [SwaggerResponse(200, "Znaleziono pojazd", typeof(Tram))]
+        [SwaggerResponse(400, "Nieprawidłowa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono pojazdu", typeof(Exception))]
         [HttpGet("{id}")]
         public async Task<ActionResult<Tram>> GetTram(int id)
         {
@@ -48,12 +48,12 @@ namespace Controllers.Controllers
 
         // GET: api/Trams?cityId=5
         [SwaggerOperation(
-             Summary = "Gets trams from given city"
+             Summary = "Pobiera wszystkie pojazdy należące do miasta o podanym id"
         )]
-        [SwaggerResponse(200, "Trams were found", typeof(IEnumerable<Tram>))]
-        [SwaggerResponse(400, "No city id provided", typeof(ArgumentNullException))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
-        [SwaggerResponse(404, "Trams not found", typeof(string))]
+        [SwaggerResponse(200, "Znaleziono pojazdy", typeof(IEnumerable<Tram>))]
+        [SwaggerResponse(400, "Nieprawidłowa struktura zapytania", typeof(ArgumentNullException))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono pojazdów", typeof(string))]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tram>>> GetTramsForCity([FromQuery] int cityId)
         {
@@ -70,11 +70,11 @@ namespace Controllers.Controllers
 
         // POST: api/Trams
         [SwaggerOperation(
-             Summary = "Saves tram to database"
+             Summary = "Tworzy nowy pojazd i zapisuje go w bazie danych"
         )]
-        [SwaggerResponse(201, "Trams were found", typeof(string))]
-        [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
-        [SwaggerResponse(401, "Unauthorized access", typeof(string))]
+        [SwaggerResponse(201, "Utworzono pojazd", typeof(string))]
+        [SwaggerResponse(400, "Niewałściwa struktura zapytania", typeof(string))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         [HttpPost]
         public async Task<ActionResult<Tram>> PostTram(Tram tram)
         {
