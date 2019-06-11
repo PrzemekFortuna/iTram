@@ -93,6 +93,26 @@ API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://i
 <img src="wykres klas iTram.png" height="500"></img>
 | *Diagram powiązań klas wewnątrz aplikacji iTram* |
 
+Poniżej szczegółowe diagramy klas niektórych klas:
+
+Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.
+<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>
+
+Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.
+<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>
+
+Diagram klas Service odpowiadającej za serwisy w aplikacji.
+1) Tram Service
+2) Trip Service
+3) City Service
+4) Sensor Reading Service
+<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>
+
+Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.
+<img src="diagram klas iTram/contentOfDTO.png" height="500"></img>
+
+Diagram klas encji aplikacji:
+<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>
 
 #### Dostępne endpointy:
 Szczegółowy opis punktów dostępowych dostępny jest na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
