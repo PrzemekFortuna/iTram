@@ -25,5 +25,6 @@ namespace DBConnection.Entities.Sensors
 
         public int? BatteryLevel { get; protected set; }
         public bool? ImInTram { get; protected set; }
+        public bool IsNew { get; protected set; } = true;
     }
 }
