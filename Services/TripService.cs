@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Services
 {
@@ -16,16 +18,19 @@ namespace Services
         private static decimal costPerMinute = 0.1m;
         private TramContext _context;
         private IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TripService(TramContext context, IMapper mapper)
+        public TripService(TramContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<TripResDTO> CreateTrip(TripReqDTO tripDTO)
         {
-            var tripExists = await ActiveTripForUserExists(tripDTO.UserId);
+            var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var tripExists = await ActiveTripForUserExists(userId);
             if (tripExists)
                 throw new InvalidOperationException("There is already an active trip for user");
 
@@ -34,7 +39,7 @@ namespace Services
                 IsFinished = false,
                 StartTime = DateTime.Now,
                 TramId = tripDTO.TramId,
-                UserId = tripDTO.UserId,
+                UserId = userId,
                 Length = 0f
             };
             var tr = await _context.Trips.AddAsync(trip);
@@ -45,8 +50,10 @@ namespace Services
 
 
 
-        public async Task<ICollection<TripResDTO>> GetTripsForUser(int userId)
+        public async Task<ICollection<TripResDTO>> GetTripsForUser()
         {
+            var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             var trips = await _context.Trips.Where(t => t.UserId == userId)
                 .Select(tr => _mapper.Map<TripResDTO>(tr)).ToListAsync();
 
@@ -59,8 +66,10 @@ namespace Services
             return _mapper.Map<TripResDTO>(tr);
         }
 
-        public async Task<decimal> FinishTrip(int userId)
+        public async Task<decimal> FinishTrip()
         {
+            var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             var tripExists = await ActiveTripForUserExists(userId);
             if (!tripExists)
                 throw new InvalidOperationException("There is no active trip for this user");

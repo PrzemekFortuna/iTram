@@ -58,9 +58,9 @@ namespace Controllers.Controllers
         [SwaggerResponse(400, "Niewłaściwa struktura zapytania", typeof(ArgumentNullException))]
         [SwaggerResponse(401, "Brak dostępu", typeof(string))]
         [SwaggerResponse(404, "Nie znaleziono przejazdów", typeof(Exception))]
-        public async Task<ActionResult<IEnumerable<TripResDTO>>> GetTripsForUser([FromQuery] int userId)
+        public async Task<ActionResult<IEnumerable<TripResDTO>>> GetTripsForUser()
         {
-            var trips = await _tripService.GetTripsForUser(userId);
+            var trips = await _tripService.GetTripsForUser();
 
             if (trips.Count == 0)
                 return NotFound(new { message = "No trips for given user" });
@@ -100,11 +100,11 @@ namespace Controllers.Controllers
         [SwaggerResponse(200, "Sukces", typeof(decimal))]
         [SwaggerResponse(400, "Użytkownik nie ma aktywnego przejazdu", typeof(InvalidOperationException))]
         [SwaggerResponse(401, "Brak dostępu", typeof(string))]
-        public async Task<ActionResult> FinishTrip([FromQuery] int userId)
+        public async Task<ActionResult> FinishTrip()
         {
             try
             {
-                var cost = await _tripService.FinishTrip(userId);
+                var cost = await _tripService.FinishTrip();
                 return Ok(new { Cost = cost });
             }
             catch(InvalidOperationException exp)
