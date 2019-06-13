@@ -40,6 +40,21 @@ namespace Controllers.Controllers
             return Ok(sensorsReadings);
         }
 
+        [SwaggerOperation(Summary = "Pobiera jednie te odczyty z sensorów, które nie były jeszcze nigdy pobrane.")]
+        [SwaggerResponse(200, "Sukces", typeof(IEnumerable<SensorsReadingDTO>))]
+        [SwaggerResponse(401, "Brak dostępu", typeof(string))]
+        [SwaggerResponse(404, "Nie znaleziono żadnych odczytów", typeof(string))]
+        [HttpGet("new")]
+        public async Task<IActionResult> GetNew()
+        {
+            var newSensorsReadings = await _sensorReadingService.GetAllNewAsync();
+            if (!newSensorsReadings.Any())
+            {
+                return NotFound();
+            }
+            return Ok(newSensorsReadings);
+        }
+
         [SwaggerOperation(
             Summary = "Zapisuje pojedynczy odczyt do bazy danych." +
                       "W przypadku gdy jednostka w której podany jest odczyt nie jest" +

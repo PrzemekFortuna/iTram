@@ -120,5 +120,20 @@ namespace Services
 
             return true;
         }
+
+        public async Task<IEnumerable<SensorsReadingDTO>> GetAllNewAsync()
+        {
+            var sensorReadings = await Context.SensorsReadings
+                .Where(x=>x.IsNew)
+                .Include(x => x.Gyroscope)
+                .Include(x => x.Accelerometer)
+                .Include(x => x.Location)
+                .ToListAsync();
+
+            sensorReadings.ForEach(x=>x.IsNew = false);
+            await Context.SaveChangesAsync();
+
+            return _mapper.Map<IEnumerable<SensorsReadingDTO>>(sensorReadings);
+        }
     }
 }
