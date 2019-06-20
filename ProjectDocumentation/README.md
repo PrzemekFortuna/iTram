@@ -135,6 +135,52 @@ Użycie pliku konfiguracyjnego pozwala zmienić omawiane parametry w każdym mom
 #### Uwierzytelnienie i autoryzacja
 Za uwierzytelnienie użytkownika odpowiada klasa UserService. Jej metoda *Login* przyjmuje email oraz hasło użytkownika i w przypadku gdy w bazie danych istnieje użytkownik o podanych danych, tworzy nowy token [JWT](https://jwt.io) a następnie zwraca go użytkownikowi. Od tego momentu użytkownik jest traktowany jako uwierzytelniony i przy każdym żądaniu zobowiązany jest wysyłać otrzymany token w nagłówku HTTP co pozwala stwierdzić czy posiada on uprawnienia do wykonania danej akcji dostępnej w systemie.
 
+#### Wykorzystanie sieci neuronowej
+Nauczona sieć neuronowa pozwala określić czy użytkownik znajduje się w pojeździe komunikacji miejskiej. Aplikacja serwerowa przyjmuje kolekcję, która składa się z pewnej ilości odczytów z sensorów. Za jej obsługę odpowiada klasa *ModelsManager*. Polega ona na zmapowaniu otrzymanej kolekcji odczytów na inne kolekcje, które odpowiadają poszczególnym modelom znajdującym się po stronie sieci neuronowej. Wykonanie mapowania zapewnia, że do punktu dostępowego sieci neuronowej trafiają jedynie te atrybuty, które rzeczywiście będą użyte do wyznaczenia odpowiedzi, co skutkuje oszczędnością czasu i transferu.
+Model sieci neuronowej generuje odpowiedź, która jest reprezentowana za pomocą klasy *NetworkReposnse*:
+
+    public class NetworkResponse
+    {
+        public double Certainty { get; set; }
+        public bool IsInTram { get; set; }
+    }
+gdzie *IsInTram* mówi czy użytkownik znajduje się w tramwaju, a *Certainty* oznacza stopień prawdziwości wyrażony jako liczba z zakresu [0, 1].
+
+Oznacza to, że otrzymujemy kolekcję takich odpowiedzi o rozmiarze odpowiadającym liczbie modeli, które zostały użyte. Należy jeszcze wyznaczyć końcową odpowiedź, która zostanie odesłana do aplikacji mobilnej. Za operację tę docelowo odpowiada klasa *HighestCertainty*. Jej działanie polega na zwróceniu odpowiedzi, która charakteryzują się najwyższym współczynnikiem prawdziwości.
+
+Poniższy schemat prezentuje uproszczoną procedurę wyznaczania odpowiedzi:
+|<img src="schemat_modelsmanager.jpg"></img>|
+
+Warty zaznaczenia jest fakt, iż dodanie kolejnego modelu ogranicza się do stworzenia klasy dziedziczącej po klasie *NeuralModel*. Wystarczy podać w jej konstruktorze adres URL punktu dostępowego z którego ma ona korzystać oraz typ który zawiera interesujące nas atrybuty:
+
+    public class NeuralModelA : NeuralModel
+    {
+        public NeuralModelA(IMapper mapper) : base(mapper, typeof(ModelA), @"https://rocky-shore-34219.herokuapp.com/predict")
+        {
+        }
+    }
+
+    public class ModelA
+    {
+        public double? ax { get; set; }
+        public double? ay { get; set; }
+        public double? az { get; set; }
+        public double? gx { get; set; }
+        public double? gy { get; set; }
+        public double? gz { get; set; }
+    }
+
+Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogranicza się do implementacji interfejsu *IMetric*:
+
+    public class HighestCertainty : IMetric
+    {
+        public bool Calculate(IEnumerable<NetworkResponse> replies)
+        {
+            return replies.OrderByDescending(x => x.certainty).First().isInTram;
+        }
+    }
+
+
 
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
