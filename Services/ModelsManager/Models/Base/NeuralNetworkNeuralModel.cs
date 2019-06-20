@@ -12,28 +12,28 @@ namespace Services.ModelsManager.Models.Base
     public abstract class NeuralModel : INeuralModel
     {
         private readonly IMapper _mapper;
-        protected Type modelType;
-        protected string URL;
+        protected Type ModelType;
+        protected string Url;
 
         protected NeuralModel(IMapper mapper, Type type, string url)
         {
             _mapper = mapper;
-            modelType = type;
-            URL = url;
+            ModelType = type;
+            Url = url;
         }
 
         public async Task<NetworkResponse> Verify(IEnumerable<SensorsReadingDTO> sensorsReadings)
         {
             // send post and return reply
 
-            var xd = _mapper.Map(sensorsReadings, typeof(IEnumerable<SensorsReadingDTO>), typeof(List<>).MakeGenericType(modelType));
+            var modelData = _mapper.Map(sensorsReadings, typeof(IEnumerable<SensorsReadingDTO>), typeof(List<>).MakeGenericType(ModelType));
 
-            var json = JsonConvert.SerializeObject(xd);
+            var json = JsonConvert.SerializeObject(modelData);
 
             using (var client = new HttpClient())
 
             {
-                var response = await client.PostAsync(URL, new StringContent(json, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync(Url, new StringContent(json, Encoding.UTF8, "application/json"));
                 var responseString = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<NetworkResponse>(responseString);
             }  
