@@ -135,6 +135,55 @@ Użycie pliku konfiguracyjnego pozwala zmienić omawiane parametry w każdym mom
 #### Uwierzytelnienie i autoryzacja
 Za uwierzytelnienie użytkownika odpowiada klasa UserService. Jej metoda *Login* przyjmuje email oraz hasło użytkownika i w przypadku gdy w bazie danych istnieje użytkownik o podanych danych, tworzy nowy token [JWT](https://jwt.io) a następnie zwraca go użytkownikowi. Od tego momentu użytkownik jest traktowany jako uwierzytelniony i przy każdym żądaniu zobowiązany jest wysyłać otrzymany token w nagłówku HTTP co pozwala stwierdzić czy posiada on uprawnienia do wykonania danej akcji dostępnej w systemie.
 
+#### Format odczytów danych sensorycznych
+Odczyty sensoryczne które są wysyłane do aplikacji serwerowej w celu ich wykorzystania do nauczania sieci lub w celu określenia czy użytkownik znajduje się w tramwaju mogą być wyrażone w różnych jednostkach w zależności od używanego do ich pomiaru urządzenia. Użycie algorytmu [łańucha zobowiązań](http://zasoby.open.agh.edu.pl/~09sbfraczek/lancuch-zobowiazan,1,44.html) pozwala na dostosowanie różnych formatów, które mogą być otrzymywane od klienta do tych, które są używane w bazie danych oraz sieci neuronowej jeszcze przed wykonaniem tych operacji.
+
+Poniżej zaprezentowano konwersję odczytów z żyroskopu:
+
+    public class RadPerSHandler : GyroscopeHandler
+    {
+        public override object Handle(object request)
+        {
+            var unit = "rad/s";
+            var req = request as DBConnection.Entities.Sensors.Gyroscope;
+            if (req.GyroscopeUnit== unit)
+            {
+                return this;
+            }
+            else
+            {
+                return base.Handle(request);
+            }
+        }
+    }
+W bazie danych odczyty z żyroskopu przechowywane są w *radianach na sekundę (rad/s)* a więc jeśli odczyt jest wyrażony w tym formacie, to konwersja nie jest wymagana.
+
+    public class RpmHandler : GyroscopeHandler
+    {
+
+        public override object Handle(object request)
+        {
+            var unit = "rpm";
+            var req = request as DBConnection.Entities.Sensors.Gyroscope;
+            if (req.GyroscopeUnit == unit)
+            {
+                var x = req.Gx * 2 * Math.PI / 60;
+                var y = req.Gy * 2 * Math.PI / 60;
+                var z = req.Gz * 2 * Math.PI / 60;
+                req.SetGyroscope("rad/s", x, y, z);
+                return this;
+            }
+            else
+            {
+                return base.Handle(request);
+            }
+        }
+    }
+
+W przypadku gdy odczyt wyrażony jest w *obrotach na minutę (rpm)* następuje konwersja do *rad/s*.
+
+Dodanie nowych formatów ogranicza się do stworzenia nowej klasy dziedziczącej po klasie *GyroscopeHandler* oraz implementacji metody *Handle*.
+
 #### Wykorzystanie sieci neuronowej
 Nauczona sieć neuronowa pozwala określić czy użytkownik znajduje się w pojeździe komunikacji miejskiej. Aplikacja serwerowa przyjmuje kolekcję, która składa się z pewnej ilości odczytów z sensorów. Za jej obsługę odpowiada klasa *ModelsManager*. Polega ona na zmapowaniu otrzymanej kolekcji odczytów na inne kolekcje, które odpowiadają poszczególnym modelom znajdującym się po stronie sieci neuronowej. Wykonanie mapowania zapewnia, że do punktu dostępowego sieci neuronowej trafiają jedynie te atrybuty, które rzeczywiście będą użyte do wyznaczenia odpowiedzi, co skutkuje oszczędnością czasu i transferu.
 Model sieci neuronowej generuje odpowiedź, która jest reprezentowana za pomocą klasy *NetworkReposnse*:
