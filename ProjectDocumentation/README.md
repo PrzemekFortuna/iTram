@@ -295,6 +295,7 @@ Pierwsza część sygnału jest w formacie  1e 02 01 1a 1a ff 4c 00, gdzie 4c 00
 Druga część sygnału to wiadomość, czyli współrzędne.
 
 Przykład
+
 Współrzędne: -171.234567, -179.234567
 
 Wartości decymalne: 	  -  17 01  23 45   67  –  17 09  23  45  67
