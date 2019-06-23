@@ -280,8 +280,32 @@ Sieć została przygotowana w języku programowania *Python* z wykorzystaniem fr
 
 
 ## 6. Technologia beacon<a name="6"></a>
-W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, które pobiera informacje nt. lokalizacji za pomocą modułu *GPS*. Następnie nadaje, korzystając z *Bluetooth*, sygnał składający się z *id* urządzenia oraz współrzędnych zapisanych w postaci `xxx.xxxxxx`, gdzie `x ∈ {0...9}`. Liczba dopełniana jest "`0`" z prawej strony oraz "`3`" z lewej strony.
+W obecnej wersji systemu rolę beacon’u pełni minikomputer Raspberry Pi 3B+, który rozsyła sygnał Bluetooth Low Energy (BLE). Podstawowym sensorem, który wykorzystywany jest w systemie Inteligentny Tramwaj jest moduł GPS. Minikomputer jest w niego wyposażony przez nakładkę HAT firmy Adafruit. Raspberry działa na systemie operacyjnym Raspbian i uruchamia napisany w języku Python skrypt odpowiedzialny za przesył kluczy na początku oraz następnie za rozsyłanie sygnału w technologii BLE.
+Paczka kluczy zawiera 8-znakowe klucze, które wykorzystywane są jako minor i major w sygnale BLE i służą do identyfikacji sygnału przez aplikację mobilną.
+	Głównym zadaniem beacon’u jest identyfikacja tramwaju. Jeżeli aplikacja mobilna wykryje wcześniej wspomniany sygnał, będzie to oznaczało, iż użytkownik znajduje się wewnątrz tramwaju. Połączenie pomiędzy aplikacją mobilną a beacon’em przebiega w następujący sposób:
+    • Raspberry oczekuje na nawiązanie połączenia z aplikacją mobilną.
+    • Po pomyślnym połączeniu następuje przesłanie paczki z kluczami.
+    • Następnie co 30 minut zmieniany jest klucz, aż do momentu gdy zostaną wykorzystane wszystkie klucze.
+    
+Format sygnału nadawanego przez IBeacon
 
+Sygnał wysyłany jest w szesnastkowym systemie liczbowym.
+Pierwsza część sygnału jest w formacie  1e 02 01 1a 1a ff 4c 00, gdzie 4c 00 oznacza, iż jest to sygnał nadawany przez IBeacon.
+Druga część sygnału to wiadomość, czyli współrzędne.
+
+Przykład
+Współrzędne: -171.234567, -179.234567
+Wartości decymalne: 	  -  17 01  23 45   67  –  17 09  23  45  67
+Wartości heksadecymalne:  FF 11 01 17  2D  43  FF 11 09 17  2D  43
+
+
+Minus przy współrzędnych zamieniany jest na wartość FF, natomiast plus na 00. Występują one na 1 oraz 7 pozycji licząc od 1. 
+Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to pierwsza cyfra znajdująca się przed kropką (w przykładzie powyżej są to kolejno 01 oraz 09). Jeżeli na pozycji przed kropką znajdą się mniejsze liczby, wtedy wstawiamy 0.
+
+|<img src="BeaconSignalFormat.jpg" height="500"></img>|
+|:--:| 
+| *Przykładowy sygnał dla współrzędnych (-171.234567 , -179.234567).* |
+<
 ``` diff
 + Dodać diagram prezentujący informacje o zabezpieczeniach
 + Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
