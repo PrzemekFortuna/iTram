@@ -233,23 +233,28 @@ Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogr
 
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
-Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. <br/>
+Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. Klient po zezwoleniu aplikacji na pobieranie i przetwarzanie dancyh z czujników znajdujących się w smartfonie, nie będzie musiał ingerować w celu rozpoczęcia i zakończenia przejazdu tramwajem. Aplikacja posiada prosty i intuicyjny interfejs, który umożliwia sprawne wykorzystywanie jej wszystkich funkcjonalności.<br/>
 Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/> <br/>
 Aplikacja zbiera następujące dane:
-- nazwa użytkownika
-- aktualna data
-- ID najbliższego beacona
-- przyśpieszenie
-- żyroskop
-- długość i szerokość geograficzna
-- poziom naładowania baterii
-- liczba kroków
-- siła grawitacji
-- poziom oświetlenia otoczenia
-- ciśnienie
-- otaczające pole geomagnetyczne
-- bliskość obiektu względem ekranu widoku urządzenia
-- flagę czy jest się w tramwaju
+- nazwa użytkownika (String)
+- aktualna data (Date)
+- ID najbliższego beacona (String)
+- przyśpieszenie (double)
+- żyroskop (double)
+- długość i szerokość geograficzna (double)
+- poziom naładowania baterii (int)
+- liczba kroków (float)
+- siła grawitacji (double)
+- poziom oświetlenia otoczenia (double)
+- ciśnienie (double)
+- otaczające pole geomagnetyczne (double)
+- bliskość obiektu względem ekranu widoku urządzenia (double)
+- flagę czy jest się w tramwaju (boolean)
+<br/> <br/>
+
+|<img src="MobileApp/sensors_data.png" height="500"></img>|
+|:--:| 
+| *Diagram klasy odpowiedzialnej za dane z sensorów* |
 
 #### Instrukcja użytkownika
 | *Ekran* | *Nazwa ekranu* | *Opis* |
