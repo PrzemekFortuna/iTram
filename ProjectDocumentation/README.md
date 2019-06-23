@@ -283,9 +283,9 @@ Sieć została przygotowana w języku programowania *Python* z wykorzystaniem fr
 W obecnej wersji systemu rolę beacon’u pełni minikomputer Raspberry Pi 3B+, który rozsyła sygnał Bluetooth Low Energy (BLE). Podstawowym sensorem, który wykorzystywany jest w systemie Inteligentny Tramwaj jest moduł GPS. Minikomputer jest w niego wyposażony przez nakładkę HAT firmy Adafruit. Raspberry działa na systemie operacyjnym Raspbian i uruchamia napisany w języku Python skrypt odpowiedzialny za przesył kluczy na początku oraz następnie za rozsyłanie sygnału w technologii BLE.
 Paczka kluczy zawiera 8-znakowe klucze, które wykorzystywane są jako minor i major w sygnale BLE i służą do identyfikacji sygnału przez aplikację mobilną.
 	Głównym zadaniem beacon’u jest identyfikacja tramwaju. Jeżeli aplikacja mobilna wykryje wcześniej wspomniany sygnał, będzie to oznaczało, iż użytkownik znajduje się wewnątrz tramwaju. Połączenie pomiędzy aplikacją mobilną a beacon’em przebiega w następujący sposób:
-    • Raspberry oczekuje na nawiązanie połączenia z aplikacją mobilną.
-    • Po pomyślnym połączeniu następuje przesłanie paczki z kluczami.
-    • Następnie co 30 minut zmieniany jest klucz, aż do momentu gdy zostaną wykorzystane wszystkie klucze.
+⋅⋅* Raspberry oczekuje na nawiązanie połączenia z aplikacją mobilną.
+⋅⋅* Po pomyślnym połączeniu następuje przesłanie paczki z kluczami.
+⋅⋅* Następnie co 30 minut zmieniany jest klucz, aż do momentu gdy zostaną wykorzystane wszystkie klucze.
     
 Format sygnału nadawanego przez IBeacon
 
@@ -305,7 +305,7 @@ Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to 
 |<img src="BeaconSignalFormat.jpg" height="500"></img>|
 |:--:| 
 | *Przykładowy sygnał dla współrzędnych (-171.234567 , -179.234567).* |
-<
+
 ``` diff
 + Dodać diagram prezentujący informacje o zabezpieczeniach
 + Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
