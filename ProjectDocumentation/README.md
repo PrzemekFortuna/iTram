@@ -321,6 +321,3 @@ Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to 
 | *Przykładowy sygnał dla współrzędnych (-171.234567 , -179.234567).* |
 
 
-<img src="device in tram.jpg" height="440"></img>
-
-
