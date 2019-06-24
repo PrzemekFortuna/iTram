@@ -10,7 +10,7 @@
 6. [Komponent 1. - Urządzenie w tramwaju](#7)
 ## 1. Opis projektu<a name="1"></a>
 Celem projektu ***Inteligentny tramwaj*** jest stworzenie systemu informatycznego, który umożliwi naliczanie opłat za korzystanie z usług transportowych w sposób jak najbardziej intuicyjny i korzystny dla użytkowników komunikacji miejskiej.<br/>
-System będzie składał się z urządzeń beacon znajdującyh się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. 
+System będzie składał się z urządzeń beacon znajdujących się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. 
 <br/>
 
 ## 1.1 Ogólny schemat systemu <a name="1.1"></a>
@@ -20,13 +20,13 @@ System będzie składał się z urządzeń beacon znajdującyh się w pojazdach 
 | *Diagram przedstawiający działanie systemu* |
 
 ## 1.2 Szczegółowy schemat komponentów <a name="1.2"></a>
-Poniżej został przedstawiony schemat komponentów tworzących system Inteligentny Tramwaj, który składa się z trzech głównych komponentów, które to w sposób szczególowy zostały opisane w niniejszej dokumentacji.
+Poniżej został przedstawiony schemat komponentów tworzących system Inteligentny Tramwaj, który składa się z trzech głównych komponentów, które to w sposób szczegółowy zostały opisane w niniejszej dokumentacji.
 
 |<img src="Compoments iTrams.png" height="760"></img>|
 |:--:| 
 | *Szczegółowy diagram trzech komponentów tworzących inteligentny tramwaj* |
 
-1. *Component 1 - Module in tram* - odpowiada za urządzenie znajdujące się w tramwaju, tj. Rasspberry Pi z modułem GPS potrzebnym do ustalenia lokalizacji pasażera korzystającego z systemu oraz podłączonego do urządzenia modułu Beacon, który w sposób ciągły wysyła do urządzeń klientów odpowiednie dane umożliwiające korzystanie z systemu intelignetnego tramwaju. 
+1. *Component 1 - Module in tram* - odpowiada za urządzenie znajdujące się w tramwaju, tj. Rasspberry Pi z modułem GPS potrzebnym do ustalenia lokalizacji pasażera korzystającego z systemu oraz podłączonego do urządzenia modułu Beacon, który w sposób ciągły wysyła do urządzeń klientów odpowiednie dane umożliwiające korzystanie z systemu inteligentnego tramwaju. 
 
 2. *Component 2 - Mobile Application* - aplikacja mobilna zainstalowana na urządzeniach klientów, która umożliwia dzięku modułowi Bluetooth na komunikację z zainstalowanym w tramwaju Beacon'ie oraz ustaleniu odpowiednio czasu jazdy klienta oraz to czy klient znajduje się na pokładzie tramwaju.
 
@@ -90,9 +90,11 @@ Poniżej szczegółowe diagramy klas niektórych klas:
 |:--:| 
 |Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.|
 
+
 |<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>|
 |:--:| 
 |Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.|
+
 
 |<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>|
 |:--:| 
@@ -102,9 +104,11 @@ Poniżej szczegółowe diagramy klas niektórych klas:
 |3) City Service|
 |4) Sensor Reading Service|
 
+
 <img src="diagram klas iTram/contentOfDTO.png" height="500"></img>|
 |:--:| 
 |Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.|
+
 
 |<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>|
 |:--:| 
@@ -191,7 +195,7 @@ Model sieci neuronowej generuje odpowiedź, która jest reprezentowana za pomoc�
     }
 gdzie *IsInTram* mówi czy użytkownik znajduje się w tramwaju, a *Certainty* oznacza stopień prawdziwości wyrażony jako liczba z zakresu [0, 1].
 
-Oznacza to, że otrzymujemy kolekcję takich odpowiedzi o rozmiarze odpowiadającym liczbie modeli, które zostały użyte. Należy jeszcze wyznaczyć końcową odpowiedź, która zostanie odesłana do aplikacji mobilnej. Za operację tę docelowo odpowiada klasa *HighestCertainty*. Jej działanie polega na zwróceniu odpowiedzi, która charakteryzują się najwyższym współczynnikiem prawdziwości.
+Oznacza to, że otrzymujemy kolekcję takich odpowiedzi o rozmiarze odpowiadającym liczbie modeli, które zostały użyte. Należy jeszcze wyznaczyć końcową odpowiedź, która zostanie odesłana do aplikacji mobilnej. Za operację tę docelowo odpowiada klasa *HighestCertainty*. Jej działanie polega na zwróceniu odpowiedzi, która charakteryzuje się najwyższym współczynnikiem prawdziwości.
 
 Poniższy schemat prezentuje uproszczoną procedurę wyznaczania odpowiedzi:
 |<img src="schemat_modelsmanager.jpg"></img>|
@@ -285,12 +289,37 @@ Modele sieci tworzyliśmy i trenowaliśmy następujacą metodą: Tworzyliśmy wi
 ## 6. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
 Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi *Bluetooth* jest w stanie dostaczyć do klientów dane potrzebne do celów daleszgo przetwarzania podróży.
 
-W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, które pobiera informacje nt. lokalizacji za pomocą modułu *GPS*. Następnie nadaje, korzystając z *Bluetooth*, sygnał składający się z *id* urządzenia oraz współrzędnych zapisanych w postaci `xxx.xxxxxx`, gdzie `x ∈ {0...9}`. Liczba dopełniana jest "`0`" z prawej strony oraz "`3`" z lewej strony.
+## 6. Technologia beacon<a name="6"></a>
+W obecnej wersji systemu rolę beacon’u pełni minikomputer Raspberry Pi 3B+, który rozsyła sygnał Bluetooth Low Energy (BLE). Podstawowym sensorem, który wykorzystywany jest w systemie Inteligentny Tramwaj jest moduł GPS. Minikomputer jest w niego wyposażony przez nakładkę HAT firmy Adafruit. Raspberry działa na systemie operacyjnym Raspbian i uruchamia napisany w języku Python skrypt odpowiedzialny za przesył kluczy na początku oraz następnie za rozsyłanie sygnału w technologii BLE.
+Paczka kluczy zawiera 8-znakowe klucze, które wykorzystywane są jako minor i major w sygnale BLE i służą do identyfikacji sygnału przez aplikację mobilną.
+	Głównym zadaniem beacon’u jest identyfikacja tramwaju. Jeżeli aplikacja mobilna wykryje wcześniej wspomniany sygnał, będzie to oznaczało, iż użytkownik znajduje się wewnątrz tramwaju. Połączenie pomiędzy aplikacją mobilną a beacon’em przebiega w następujący sposób:
+	
+* Raspberry oczekuje na nawiązanie połączenia z aplikacją mobilną.
+* Po pomyślnym połączeniu następuje przesłanie paczki z kluczami.
+* Następnie co 30 minut zmieniany jest klucz, aż do momentu gdy zostaną wykorzystane wszystkie klucze.
+    
+Format sygnału nadawanego przez IBeacon
 
-``` diff
-+ Dodać diagram prezentujący informacje o zabezpieczeniach
-+ Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
-```
+Sygnał wysyłany jest w szesnastkowym systemie liczbowym.
+Pierwsza część sygnału jest w formacie  1e 02 01 1a 1a ff 4c 00, gdzie 4c 00 oznacza, iż jest to sygnał nadawany przez IBeacon.
+Druga część sygnału to wiadomość, czyli współrzędne.
+
+Przykład
+
+Współrzędne: -171.234567, -179.234567
+
+Wartości decymalne: 	  -  17 01  23 45   67  –  17 09  23  45  67
+
+Wartości heksadecymalne:  FF 11 01 17  2D  43  FF 11 09 17  2D  43
+
+
+Minus przy współrzędnych zamieniany jest na wartość FF, natomiast plus na 00. Występują one na 1 oraz 7 pozycji licząc od 1. 
+Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to pierwsza cyfra znajdująca się przed kropką (w przykładzie powyżej są to kolejno 01 oraz 09). Jeżeli na pozycji przed kropką znajdą się mniejsze liczby, wtedy wstawiamy 0.
+
+|<img src="BeaconSignalFormat.jpg" height="500"></img>|
+|:--:| 
+| *Przykładowy sygnał dla współrzędnych (-171.234567 , -179.234567).* |
+
 
 <img src="device in tram.jpg" height="440"></img>
 
