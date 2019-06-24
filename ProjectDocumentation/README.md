@@ -275,13 +275,15 @@ Link do repozytorium: <a href="https://github.com/kpilcicki/problem-workshop-net
 Sieć neuronowa ma na celu, na podstawie danych otrzymanych od aplikacji mobilnej, określić czy dana osoba znjaduje się wewnątrz pojazdu komunikacji miejskiej. Docelowo aplikacja zostanie zintegrowana z serwerem. Aplikacja składa się z 3 modeli, na wejściu otrzymujemy wszystkie dane z sensorów, następnie filtrujemy je, aby sieć otrzymywała na wejściu tylko wybrane dane, w naszym przypadku to dane z akcelerometru i żyroskopu. Po przefiltrowaniu danych przechodzą przez trzy nauczone modele sieci, które na wyjściu dają odpowiedż w postaci prawdopodobieństwa, że użytkownik jest w poruszającym się tramwaju, i po otrzymaniu wyników wyliczamy średnią.<br/>
 Sieć została przygotowana w języku programowania *Python* z wykorzystaniem frameworku *TensorFlow*.
 
+Modele sieci tworzyliśmy i trenowaliśmy następujacą metodą: Tworzyliśmy wiele wariantów architektury sieci neuronowej, następnie trenowaliśmy wszystkie używając aktualnych danych pobranych z sensorów urządzeń użytkowników aplikacji. Proces treningowy powtarzaliśmy wielokrotnie dla miarowo zmienianych pojedynczych hiperparametrów, a wyniki dla tak wytrenowanych sieci porównywaliśmy, np. poprzez sporządzenie odpowiednich wykresów pomocniczych (przykład - rys. 5.1). Najlepsze z modeli zostały zapisane wraz z ich parametrami do odpowiedniego formatu, by zostały wczytane na serwer odpowiadający za predykcję - odpowiadanie na pytanie, czy przy podanych wartościach odczytów sensorów użytkownik znajduje się w poruszającym się tramwaju, czy nie. Alternatywnym rozwiązaniem do statycznego wczytywania już wytrenowanych modeli byłoby tzw. ciągłe uczenie. Jednak takie rozwiązanie miałoby swoje minusy. Sam proces polegałby na wstępnym uczeniu danego modelu sieci, a następnie w trybie ciągłym co jakiś czas aplikacja pobierałaby nowe dane treningowe, w celu "douczenia" sieci. Pierwszy problem, który pojawia się przy takiej implementacji, to zjawisko przeuczenia sieci. Zbyt dużo danych treningowych moze spowodować, że model staje się zbyt wyczulony na konkretny podzbiór danych, przez co osiągałby gorsze wyniki dla ogólnych przypadków. Ten problem można by rozwiązać, sprawdzając miary jakości sieci przed i po każdym "douczeniu". Niestety prosty algorytm sprawdzania osiągów przed i po douczeniu przy pomocy jednego zestawu danych dawałby słabe bądź zadne efekty, więc należałoby sprawdzać sieć dla różnych kombinacji nowych danych i ich ilości, co nałożyłoby znaczne obciążenie na serwer. Jest to kolejny problem z tym rozwiązaniem - zaimplementowany sposób uczenia modeli na stałe sprawia, że aplikacja stawia znacznie niższe wymagania wobec maszyny, na której jest uruchomiona, i zużywa mniej jej zasobów. Tą zaletę wykorzystujemy, korzystając z darmowego hostingu o ograniczonej mocy obliczeniowej.
+
 |<img src="WorkingFiles/siecTest.JPG" height="500"></img>|
 |:--:| 
-| *Wykres przedstawiający testy do sieci neuronowej, trace 0: dokładność, trace 1: precyzja* |
+| *5.1 Wykres przedstawiający testy do sieci neuronowej, trace 0: dokładność, trace 1: precyzja* |
 
 |<img src="WorkingFiles/model.JPG" height="500"></img>|
 |:--:| 
-| *Model sieci neuronowej* |
+| *5.2 Model sieci neuronowej* |
 
 
 ## 6. Technologia beacon<a name="6"></a>
