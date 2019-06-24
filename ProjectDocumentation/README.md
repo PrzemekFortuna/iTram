@@ -1,23 +1,19 @@
 # Inteligentny tramwaj
 ## Spis treści
-1. [Opis projektu](#1)
-
-1.1 [Schemat komponentów](#1.1)
-
+1. [Opis projektu](#1)<br>
+1.1 [Ogólny schemat systemu](#1.1)<br>
 1.2 [Szczegółowy schemat komponentów](#1.2)
-
 2. [Skład zespołu](#2)
 3. [Komponent 3. - Baza danych i serwer aplikacyjny](#3)
 4. [Komponent 2. - Aplikacja mobilna](#4)
 5. [Sieć neuronowa](#5)
-6. [Technologia beacon](#6)
-7. [Komponent 1. - Urządzenie w tramwaju](#7)
+6. [Komponent 1. - Urządzenie w tramwaju](#7)
 ## 1. Opis projektu<a name="1"></a>
 Celem projektu ***Inteligentny tramwaj*** jest stworzenie systemu informatycznego, który umożliwi naliczanie opłat za korzystanie z usług transportowych w sposób jak najbardziej intuicyjny i korzystny dla użytkowników komunikacji miejskiej.<br/>
 System będzie składał się z urządzeń beacon znajdujących się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. 
 <br/>
 
-## 1.1 Schemat komponentów <a name="1.1"></a>
+## 1.1 Ogólny schemat systemu <a name="1.1"></a>
 
 |<img src="graf.jpg" height="500"></img>|
 |:--:| 
@@ -38,9 +34,6 @@ Poniżej został przedstawiony schemat komponentów tworzących system Inteligen
 
 Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 
-```diff
-+ Dodać diagram sekwencji (lub diagramy dla poszczegónych elementów systemu??)
-```
 #### Funkcjonalności: ####
 - Nadawanie danych dotyczących pojazdu i jego stanu przez urządzenie beacon
 - Odbiór danych przez aplikację mobilną w telefonie
@@ -53,9 +46,6 @@ Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 - Naliczanie opłat w przypadku utraty połączenia z telefonem
 ## 2. Skład zespołu<a name="2"></a>
 ### Prowadzący: *mgr inż. Bartosz Wieczorek* 
-```diff
-- Zweryfikować podział zadań
-```
 ### Baza danych i serwer aplikacyjny:
 - Yaroslav Goretskyi
 - Krzysztof Wierzbicki
@@ -90,29 +80,39 @@ Do komunikacji z aplikacją mobilną i przetwarzania pozyskanych danych utworzon
 API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)<br/>
 
 #### Diagram klas UML
-<img src="wykres klas iTram.png" height="500"></img>
+|<img src="wykres klas iTram.png" height="500"></img>|
+|:--:| 
 | *Diagram powiązań klas wewnątrz aplikacji iTram* |
 
 Poniżej szczegółowe diagramy klas niektórych klas:
 
-Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.
-<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>
+|<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>|
+|:--:| 
+|Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.|
 
-Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. żyroskop, akcelerometr, rotację i lokalizację.
-<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>
 
-Diagram klas Service odpowiadającej za serwisy w aplikacji.
-1) Tram Service
-2) Trip Service
-3) City Service
-4) Sensor Reading Service
-<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>
+|<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>|
+|:--:| 
+|Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.|
 
-Diagram klas odpowiedzialny za obszar DTO dla całej aplikacji.
-<img src="diagram klas iTram/contentOfDTO.png" height="500"></img>
 
-Diagram klas encji aplikacji:
-<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>
+|<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>|
+|:--:| 
+|Diagram klas Service odpowiadającej za serwisy w aplikacji.|
+|1) Tram Service|
+|2) Trip Service|
+|3) City Service|
+|4) Sensor Reading Service|
+
+
+<img src="diagram klas iTram/contentOfDTO.png" height="500"></img>|
+|:--:| 
+|Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.|
+
+
+|<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>|
+|:--:| 
+|Diagram klas encji aplikacji|
 
 #### Dostępne endpointy:
 Szczegółowy opis punktów dostępowych dostępny jest na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
@@ -233,23 +233,28 @@ Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogr
 
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
-Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. <br/>
+Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. Klient po zezwoleniu aplikacji na pobieranie i przetwarzanie dancyh z czujników znajdujących się w smartfonie, nie będzie musiał ingerować w celu rozpoczęcia i zakończenia przejazdu tramwajem. Aplikacja posiada prosty i intuicyjny interfejs, który umożliwia sprawne wykorzystywanie jej wszystkich funkcjonalności.<br/>
 Aplikacja została napisana w języku programowania *Java* z wykorzystaniem *Gradle*. <br/> <br/>
 Aplikacja zbiera następujące dane:
-- nazwa użytkownika
-- aktualna data
-- ID najbliższego beacona
-- przyśpieszenie
-- żyroskop
-- długość i szerokość geograficzna
-- poziom naładowania baterii
-- liczba kroków
-- siła grawitacji
-- poziom oświetlenia otoczenia
-- ciśnienie
-- otaczające pole geomagnetyczne
-- bliskość obiektu względem ekranu widoku urządzenia
-- flagę czy jest się w tramwaju
+- nazwa użytkownika (String)
+- aktualna data (Date)
+- ID najbliższego beacona (String)
+- przyśpieszenie (double)
+- żyroskop (double)
+- długość i szerokość geograficzna (double)
+- poziom naładowania baterii (int)
+- liczba kroków (float)
+- siła grawitacji (double)
+- poziom oświetlenia otoczenia (double)
+- ciśnienie (double)
+- otaczające pole geomagnetyczne (double)
+- bliskość obiektu względem ekranu widoku urządzenia (double)
+- flagę czy jest się w tramwaju (boolean)
+<br/> <br/>
+
+|<img src="MobileApp/sensors_data.png" height="500"></img>|
+|:--:| 
+| *Diagram klasy odpowiedzialnej za dane z sensorów* |
 
 #### Instrukcja użytkownika
 | *Ekran* | *Nazwa ekranu* | *Opis* |
@@ -270,14 +275,19 @@ Link do repozytorium: <a href="https://github.com/kpilcicki/problem-workshop-net
 Sieć neuronowa ma na celu, na podstawie danych otrzymanych od aplikacji mobilnej, określić czy dana osoba znjaduje się wewnątrz pojazdu komunikacji miejskiej. Docelowo aplikacja zostanie zintegrowana z serwerem. Aplikacja składa się z 3 modeli, na wejściu otrzymujemy wszystkie dane z sensorów, następnie filtrujemy je, aby sieć otrzymywała na wejściu tylko wybrane dane, w naszym przypadku to dane z akcelerometru i żyroskopu. Po przefiltrowaniu danych przechodzą przez trzy nauczone modele sieci, które na wyjściu dają odpowiedż w postaci prawdopodobieństwa, że użytkownik jest w poruszającym się tramwaju, i po otrzymaniu wyników wyliczamy średnią.<br/>
 Sieć została przygotowana w języku programowania *Python* z wykorzystaniem frameworku *TensorFlow*.
 
+Modele sieci tworzyliśmy i trenowaliśmy następujacą metodą: Tworzyliśmy wiele wariantów architektury sieci neuronowej, następnie trenowaliśmy wszystkie używając aktualnych danych pobranych z sensorów urządzeń użytkowników aplikacji. Proces treningowy powtarzaliśmy wielokrotnie dla miarowo zmienianych pojedynczych hiperparametrów, a wyniki dla tak wytrenowanych sieci porównywaliśmy, np. poprzez sporządzenie odpowiednich wykresów pomocniczych (przykład - rys. 5.1). Najlepsze z modeli zostały zapisane wraz z ich parametrami do odpowiedniego formatu, by zostały wczytane na serwer odpowiadający za predykcję - odpowiadanie na pytanie, czy przy podanych wartościach odczytów sensorów użytkownik znajduje się w poruszającym się tramwaju, czy nie. Alternatywnym rozwiązaniem do statycznego wczytywania już wytrenowanych modeli byłoby tzw. ciągłe uczenie. Jednak takie rozwiązanie miałoby swoje minusy. Sam proces polegałby na wstępnym uczeniu danego modelu sieci, a następnie w trybie ciągłym co jakiś czas aplikacja pobierałaby nowe dane treningowe, w celu "douczenia" sieci. Pierwszy problem, który pojawia się przy takiej implementacji, to zjawisko przeuczenia sieci. Zbyt dużo danych treningowych moze spowodować, że model staje się zbyt wyczulony na konkretny podzbiór danych, przez co osiągałby gorsze wyniki dla ogólnych przypadków. Ten problem można by rozwiązać, sprawdzając miary jakości sieci przed i po każdym "douczeniu". Niestety prosty algorytm sprawdzania osiągów przed i po douczeniu przy pomocy jednego zestawu danych dawałby słabe bądź zadne efekty, więc należałoby sprawdzać sieć dla różnych kombinacji nowych danych i ich ilości, co nałożyłoby znaczne obciążenie na serwer. Jest to kolejny problem z tym rozwiązaniem - zaimplementowany sposób uczenia modeli na stałe sprawia, że aplikacja stawia znacznie niższe wymagania wobec maszyny, na której jest uruchomiona, i zużywa mniej jej zasobów. Tą zaletę wykorzystujemy, korzystając z darmowego hostingu o ograniczonej mocy obliczeniowej.
+
 |<img src="WorkingFiles/siecTest.JPG" height="500"></img>|
 |:--:| 
-| *Wykres przedstawiający testy do sieci neuronowej, trace 0: dokładność, trace 1: precyzja* |
+| *5.1 Wykres przedstawiający testy do sieci neuronowej, trace 0: dokładność, trace 1: precyzja* |
 
 |<img src="WorkingFiles/model.JPG" height="500"></img>|
 |:--:| 
-| *Model sieci neuronowej* |
+| *5.2 Model sieci neuronowej* |
 
+
+## 6. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
+Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi *Bluetooth* jest w stanie dostaczyć do klientów dane potrzebne do celów daleszgo przetwarzania podróży.
 
 ## 6. Technologia beacon<a name="6"></a>
 W obecnej wersji systemu rolę beacon’u pełni minikomputer Raspberry Pi 3B+, który rozsyła sygnał Bluetooth Low Energy (BLE). Podstawowym sensorem, który wykorzystywany jest w systemie Inteligentny Tramwaj jest moduł GPS. Minikomputer jest w niego wyposażony przez nakładkę HAT firmy Adafruit. Raspberry działa na systemie operacyjnym Raspbian i uruchamia napisany w języku Python skrypt odpowiedzialny za przesył kluczy na początku oraz następnie za rozsyłanie sygnału w technologii BLE.
@@ -315,14 +325,6 @@ Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to 
 + Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
 ```
 
-## 7. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
-Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi Beacon jest w stanie dostaczyć dane kleintów do celów daleszgo przetwarzania podróży.
-
-#### Funkcjonalności: ####
-- Dostarczenie danych klientów do systemu w celu ich dalszego przetwarzania.
-
-|<img src="device in tram.jpg" height="440"></img>|
+<img src="device in tram.jpg" height="440"></img>
 
 
-
-## Miejsce na uwagi:
