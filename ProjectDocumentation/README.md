@@ -1,23 +1,19 @@
 # Inteligentny tramwaj
 ## Spis treści
-1. [Opis projektu](#1)
-
-1.1 [Schemat komponentów](#1.1)
-
+1. [Opis projektu](#1)<br>
+1.1 [Ogólny schemat systemu](#1.1)<br>
 1.2 [Szczegółowy schemat komponentów](#1.2)
-
 2. [Skład zespołu](#2)
 3. [Komponent 3. - Baza danych i serwer aplikacyjny](#3)
 4. [Komponent 2. - Aplikacja mobilna](#4)
 5. [Sieć neuronowa](#5)
-6. [Technologia beacon](#6)
-7. [Komponent 1. - Urządzenie w tramwaju](#7)
+6. [Komponent 1. - Urządzenie w tramwaju](#7)
 ## 1. Opis projektu<a name="1"></a>
 Celem projektu ***Inteligentny tramwaj*** jest stworzenie systemu informatycznego, który umożliwi naliczanie opłat za korzystanie z usług transportowych w sposób jak najbardziej intuicyjny i korzystny dla użytkowników komunikacji miejskiej.<br/>
 System będzie składał się z urządzeń beacon znajdującyh się w pojazdach komunikacji miejskiej, aplikacji moblinej dla użytkowników końcowych oraz serwera aplikacyjnego. Ogólny diagram działania systemu znajduje się poniżej. 
 <br/>
 
-## 1.1 Schemat komponentów <a name="1.1"></a>
+## 1.1 Ogólny schemat systemu <a name="1.1"></a>
 
 |<img src="graf.jpg" height="500"></img>|
 |:--:| 
@@ -38,9 +34,6 @@ Poniżej został przedstawiony schemat komponentów tworzących system Inteligen
 
 Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 
-```diff
-+ Dodać diagram sekwencji (lub diagramy dla poszczegónych elementów systemu??)
-```
 #### Funkcjonalności: ####
 - Nadawanie danych dotyczących pojazdu i jego stanu przez urządzenie beacon
 - Odbiór danych przez aplikację mobilną w telefonie
@@ -53,9 +46,6 @@ Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 - Naliczanie opłat w przypadku utraty połączenia z telefonem
 ## 2. Skład zespołu<a name="2"></a>
 ### Prowadzący: *mgr inż. Bartosz Wieczorek* 
-```diff
-- Zweryfikować podział zadań
-```
 ### Baza danych i serwer aplikacyjny:
 - Yaroslav Goretskyi
 - Krzysztof Wierzbicki
@@ -90,29 +80,35 @@ Do komunikacji z aplikacją mobilną i przetwarzania pozyskanych danych utworzon
 API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)<br/>
 
 #### Diagram klas UML
-<img src="wykres klas iTram.png" height="500"></img>
+|<img src="wykres klas iTram.png" height="500"></img>|
+|:--:| 
 | *Diagram powiązań klas wewnątrz aplikacji iTram* |
 
 Poniżej szczegółowe diagramy klas niektórych klas:
 
-Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.
-<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>
+|<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>|
+|:--:| 
+|Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.|
 
-Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.
-<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>
+|<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>|
+|:--:| 
+|Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.|
 
-Diagram klas Service odpowiadającej za serwisy w aplikacji.
-1) Tram Service
-2) Trip Service
-3) City Service
-4) Sensor Reading Service
-<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>
+|<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>|
+|:--:| 
+|Diagram klas Service odpowiadającej za serwisy w aplikacji.|
+|1) Tram Service|
+|2) Trip Service|
+|3) City Service|
+|4) Sensor Reading Service|
 
-Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.
-<img src="diagram klas iTram/contentOfDTO.png" height="500"></img>
+<img src="diagram klas iTram/contentOfDTO.png" height="500"></img>|
+|:--:| 
+|Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.|
 
-Diagram klas encji aplikacji:
-<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>
+|<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>|
+|:--:| 
+|Diagram klas encji aplikacji|
 
 #### Dostępne endpointy:
 Szczegółowy opis punktów dostępowych dostępny jest na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
@@ -286,7 +282,9 @@ Modele sieci tworzyliśmy i trenowaliśmy następujacą metodą: Tworzyliśmy wi
 | *5.2 Model sieci neuronowej* |
 
 
-## 6. Technologia beacon<a name="6"></a>
+## 6. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
+Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi *Bluetooth* jest w stanie dostaczyć do klientów dane potrzebne do celów daleszgo przetwarzania podróży.
+
 W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, które pobiera informacje nt. lokalizacji za pomocą modułu *GPS*. Następnie nadaje, korzystając z *Bluetooth*, sygnał składający się z *id* urządzenia oraz współrzędnych zapisanych w postaci `xxx.xxxxxx`, gdzie `x ∈ {0...9}`. Liczba dopełniana jest "`0`" z prawej strony oraz "`3`" z lewej strony.
 
 ``` diff
@@ -294,14 +292,6 @@ W obecnej wersji systemu w zastępstwie beacona wykorzystujemy *Rasberry Pi*, kt
 + Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
 ```
 
-## 7. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
-Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi Beacon jest w stanie dostaczyć dane kleintów do celów daleszgo przetwarzania podróży.
-
-#### Funkcjonalności: ####
-- Dostarczenie danych klientów do systemu w celu ich dalszego przetwarzania.
-
-|<img src="device in tram.jpg" height="440"></img>|
+<img src="device in tram.jpg" height="440"></img>
 
 
-
-## Miejsce na uwagi:
