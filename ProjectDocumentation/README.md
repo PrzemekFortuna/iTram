@@ -320,10 +320,6 @@ Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to 
 |:--:| 
 | *Przykładowy sygnał dla współrzędnych (-171.234567 , -179.234567).* |
 
-``` diff
-+ Dodać diagram prezentujący informacje o zabezpieczeniach
-+ Dodać informację o wykorzystanym modelu RasberryPi i sensorach, dodać informację o oprogramowaniu.
-```
 
 <img src="device in tram.jpg" height="440"></img>
 
