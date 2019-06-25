@@ -229,7 +229,8 @@ Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogr
         }
     }
 
-
+#### Dodawanie odczytów z aplikacji mobilnej do bazy danych
+W `SensorReadingsController` zdefiniowane są dwie metody `PostSensorsReading` oraz `PostSensorsReading`, które pozwalają na dodanie jednego lub kolekcji odczytów (`SensorsReadingUnitsDto`). Następnie odczyty przekazywane są do serwisu `SensorReadingService`, który zapisuje je w bazie. W razie potrzeby odczyty zamieniane są na odpowiednie jednostki, co zosało opisane w rozdziale [Format odczytów danych sensorycznych](#format-odczytów-danych-sensorycznych). 
 
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
