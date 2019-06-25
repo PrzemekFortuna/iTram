@@ -84,21 +84,21 @@ API serwera znajduje się pod adresem: [http://itram.azurewebsites.net](http://i
 |:--:| 
 | *Diagram powiązań klas wewnątrz aplikacji iTram* |
 
-Poniżej szczegółowe diagramy klas niektórych klas:
+Poniżej szczegółowe diagramy wybranych klas:
 
 |<img src="diagram klas iTram/Content of Controllers.Controllers.png" height="500"></img>|
 |:--:| 
-|Diagram klas odpowiadający za kierowanie zapytaniami w aplikacji.|
+|*Diagram klas odpowiadających za kierowanie zapytaniami w aplikacji*|
 
 
 |<img src="diagram klas iTram/ContentOfSensors.png" height="500"></img>|
 |:--:| 
-|Diagram klas Content of Sensor odpowiadający za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację.|
+|*Diagram klas Content of Sensor odpowiadającego za sensory zainstalowane w telefonie np. gyroskop, akcelerometr, rotację i lokalizację*|
 
 
 |<img src="diagram klas iTram/ContentOfServices.png" height="500"></img>|
 |:--:| 
-|Diagram klas Service odpowiadającej za serwisy w aplikacji.|
+|*Diagram klas Service odpowiadającej za serwisy w aplikacji*|
 |1) Tram Service|
 |2) Trip Service|
 |3) City Service|
@@ -107,12 +107,12 @@ Poniżej szczegółowe diagramy klas niektórych klas:
 
 <img src="diagram klas iTram/contentOfDTO.png" height="500"></img>|
 |:--:| 
-|Diagram klas odpowiedzialny za obszar DTO w dla całej aplikacji.|
+|*Diagram klas odpowiedzialnych za obszar DTO w dla całej aplikacji*|
 
 
 |<img src="diagram klas iTram/contentOfEntities.png" height="500"></img>|
 |:--:| 
-|Diagram klas encji aplikacji|
+|*Diagram klas encji aplikacji*|
 
 #### Dostępne endpointy:
 Szczegółowy opis punktów dostępowych dostępny jest na stronie: [http://itram.azurewebsites.net](http://itram.azurewebsites.net)
@@ -198,7 +198,11 @@ gdzie *IsInTram* mówi czy użytkownik znajduje się w tramwaju, a *Certainty* o
 Oznacza to, że otrzymujemy kolekcję takich odpowiedzi o rozmiarze odpowiadającym liczbie modeli, które zostały użyte. Należy jeszcze wyznaczyć końcową odpowiedź, która zostanie odesłana do aplikacji mobilnej. Za operację tę docelowo odpowiada klasa *HighestCertainty*. Jej działanie polega na zwróceniu odpowiedzi, która charakteryzuje się najwyższym współczynnikiem prawdziwości.
 
 Poniższy schemat prezentuje uproszczoną procedurę wyznaczania odpowiedzi:
+
 |<img src="schemat_modelsmanager.jpg"></img>|
+|:--:| 
+|*Schemat procedury wyznaczania odpowiedzi*|
+
 
 Warty zaznaczenia jest fakt, iż dodanie kolejnego modelu ogranicza się do stworzenia klasy dziedziczącej po klasie *NeuralModel*. Wystarczy podać w jej konstruktorze adres URL punktu dostępowego z którego ma ona korzystać oraz typ który zawiera interesujące nas atrybuty:
 
@@ -290,7 +294,6 @@ Modele sieci tworzyliśmy i trenowaliśmy następujacą metodą: Tworzyliśmy wi
 ## 6. Komponent 1. - Urządzenie w tramwaju <a name="7"></a>
 Jest to główny komponent systemu Inteligenty Tramwaj znajdujący się wewnątrz pojazdów, który dzięki urządzeniu Raspberry Pi, modułowi GPS oraz systemowi *Bluetooth* jest w stanie dostaczyć do klientów dane potrzebne do celów daleszgo przetwarzania podróży.
 
-## 6. Technologia beacon<a name="6"></a>
 W obecnej wersji systemu rolę beacon’u pełni minikomputer Raspberry Pi 3B+, który rozsyła sygnał Bluetooth Low Energy (BLE). Podstawowym sensorem, który wykorzystywany jest w systemie Inteligentny Tramwaj jest moduł GPS. Minikomputer jest w niego wyposażony przez nakładkę HAT firmy Adafruit. Raspberry działa na systemie operacyjnym Raspbian i uruchamia napisany w języku Python skrypt odpowiedzialny za przesył kluczy na początku oraz następnie za rozsyłanie sygnału w technologii BLE.
 Paczka kluczy zawiera 8-znakowe klucze, które wykorzystywane są jako minor i major w sygnale BLE i służą do identyfikacji sygnału przez aplikację mobilną.
 	Głównym zadaniem beacon’u jest identyfikacja tramwaju. Jeżeli aplikacja mobilna wykryje wcześniej wspomniany sygnał, będzie to oznaczało, iż użytkownik znajduje się wewnątrz tramwaju. Połączenie pomiędzy aplikacją mobilną a beacon’em przebiega w następujący sposób:
@@ -302,20 +305,20 @@ Paczka kluczy zawiera 8-znakowe klucze, które wykorzystywane są jako minor i m
 Format sygnału nadawanego przez IBeacon
 
 Sygnał wysyłany jest w szesnastkowym systemie liczbowym.
-Pierwsza część sygnału jest w formacie  1e 02 01 1a 1a ff 4c 00, gdzie 4c 00 oznacza, iż jest to sygnał nadawany przez IBeacon.
+Pierwsza część sygnału jest w formacie  `1e 02 01 1a 1a ff 4c 00`, gdzie `4c 00` oznacza, iż jest to sygnał nadawany przez IBeacon.
 Druga część sygnału to wiadomość, czyli współrzędne.
 
-Przykład
+**Przykład**
 
-Współrzędne: -171.234567, -179.234567
+Współrzędne: `-171.234567, -179.234567`
 
-Wartości decymalne: 	  -  17 01  23 45   67  –  17 09  23  45  67
+Wartości decymalne: 	  `-  17 01  23 45   67  –  17 09  23  45  67`
 
-Wartości heksadecymalne:  FF 11 01 17  2D  43  FF 11 09 17  2D  43
+Wartości heksadecymalne:  `FF 11 01 17  2D  43  FF 11 09 17  2D  43`
 
 
-Minus przy współrzędnych zamieniany jest na wartość FF, natomiast plus na 00. Występują one na 1 oraz 7 pozycji licząc od 1. 
-Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to pierwsza cyfra znajdująca się przed kropką (w przykładzie powyżej są to kolejno 01 oraz 09). Jeżeli na pozycji przed kropką znajdą się mniejsze liczby, wtedy wstawiamy 0.
+Minus przy współrzędnych zamieniany jest na wartość `FF`, natomiast plus na `00`. Występują one na 1 oraz 7 pozycji licząc od 1. 
+Wartość przed kropka w współrzędnych jest zawsze w formacie 0x, gdzie x to pierwsza cyfra znajdująca się przed kropką (w przykładzie powyżej są to kolejno `01` oraz `09`). Jeżeli na pozycji przed kropką znajdą się mniejsze liczby, wtedy wstawiamy 0.
 
 |<img src="BeaconSignalFormat.jpg" height="500"></img>|
 |:--:| 
