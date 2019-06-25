@@ -236,6 +236,9 @@ Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogr
 #### Dodawanie odczytów z aplikacji mobilnej do bazy danych
 W `SensorReadingsController` zdefiniowane są dwie metody `PostSensorsReading` oraz `PostSensorsReading`, które pozwalają na dodanie jednego lub kolekcji odczytów (`SensorsReadingUnitsDto`). Następnie odczyty przekazywane są do serwisu `SensorReadingService`, który zapisuje je w bazie. W razie potrzeby odczyty zamieniane są na odpowiednie jednostki, co zosało opisane w rozdziale [Format odczytów danych sensorycznych](#format-odczytów-danych-sensorycznych). 
 
+#### Rozpoczynanie i kończenie podróży
+Kontroler `TripsController` zawiera dwie metody `PostTrip` i `FinishTrip` pozwalające kolejno utowrzyć przejazd oraz go zakończyć. Logiką zajmuje się serwis `TripService`. Przy rozpoczęciu podróży zapamiętywane są takie dane jak data rozpczęcia, id pojazdu i użytkownika. Następnie po zakończeniu przejazdu również zapisywana jest data co pozwala obliczyć koszt przejazdu. W naszym przypadku jest to ilość minut pomnożona przez koszt za minutę. Wynik wysyłany jest jako odpowiedź do aplikacji mobilnej.
+
 ## 4. Komponent 2. - Aplikacja mobilna<a name="4"></a>
 Link do repozytorium: <a href="https://github.com/PostAdam/TramBeaconApp">https://github.com/PostAdam/TramBeaconApp</a> <br/>
 Aplikacja mobilna ma na celu dostarczenie użytkownikowi interfejsu graficznego, za pomocą którego, możliwe będzie korzystanie z funkcji udostępnianych przez aplikację. Klient po zezwoleniu aplikacji na pobieranie i przetwarzanie dancyh z czujników znajdujących się w smartfonie, nie będzie musiał ingerować w celu rozpoczęcia i zakończenia przejazdu tramwajem. Aplikacja posiada prosty i intuicyjny interfejs, który umożliwia sprawne wykorzystywanie jej wszystkich funkcjonalności.<br/>
