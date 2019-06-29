@@ -48,6 +48,9 @@ namespace DBConnection.DTO
         public string Latitude { get; set; }
         public string Longitude { get; set; }
 
+        public string VehicleLatitude { get; set; }
+        public string VehicleLongitude { get; set; }
+
         public int? BatteryLevel { get; set; }
 
         public bool? ImInTram { get; set; }

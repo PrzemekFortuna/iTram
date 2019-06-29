@@ -107,23 +107,24 @@ namespace Controllers.Controllers
 
 
         [SwaggerOperation(
-            Summary = "Określa czy użytkownik znajduje się w pojeździe komunikacji miejskiej" +
-                      "poprzez użycie określonych z góry modeli sieci neuronowych. Jako prawidłowa" +
-                      "pod uwagę brana jest odpowiedź o największej \"pewności\"."
+            Summary = "Określa czy użytkownik znajduje się w pojezdzie komunikacji miejskiej" +
+                      "na podstawie sieci neuronowej i lokalizacji zarówno użytkownika jak i pojazdu."
         )]
         [SwaggerResponse(200, "Reply returned", typeof(string))]
         [SwaggerResponse(400, "Request structure was wrong", typeof(string))]
         [SwaggerResponse(401, "Unauthorized access", typeof(string))]
         [HttpPost("amiintram")]
         [Authorize]
-        public async Task<IActionResult> AmIInTram([FromBody] IEnumerable<SensorsReadingUnitsDTO> sensorsReadings)
+        public async Task<IActionResult> AmIInTram([FromBody] AmIInTramDto amIInTram)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var res = await _sensorReadingService.AmIInTram(sensorsReadings);
+             
+
+            var res = await _sensorReadingService.AmIInTram(amIInTram.SensorsReadings, amIInTram.UseNeuralNetwork, amIInTram.UseLocation);
             if (res == null)
                 return BadRequest();
 

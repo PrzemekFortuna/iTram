@@ -51,6 +51,7 @@ namespace Controllers
             var appSettingsSection = Configuration.GetSection("JWT");
             services.Configure<AppSettings>(appSettingsSection);
             services.Configure<BeaconTokenSettings>(Configuration.GetSection("BeaconToken"));
+            services.Configure<LocationSimilaritySettings>(Configuration.GetSection("LocationSimilarity"));
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);

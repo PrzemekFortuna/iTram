@@ -12,6 +12,7 @@ namespace DBConnection.Entities.Sensors
         public Accelerometer Accelerometer { get; protected set; }
         public Gyroscope Gyroscope { get; protected set; }
         public Location Location { get; protected set; }
+        public VehicleLocation VehicleLocation { get; protected set; }
         public GameRotation GameRotation { get; protected set; }
         public GeomagneticRotation GeomagneticRotation { get; protected set; }
         public MagneticField MagneticField { get; protected set; }
