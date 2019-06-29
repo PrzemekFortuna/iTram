@@ -184,7 +184,10 @@ W przypadku gdy odczyt wyrażony jest w *obrotach na minutę (rpm)* następuje k
 
 Dodanie nowych formatów ogranicza się do stworzenia nowej klasy dziedziczącej po klasie *GyroscopeHandler* oraz implementacji metody *Handle*.
 
-#### Wykorzystanie sieci neuronowej
+#### Określanie czy użytkownik znajduje się w pojeździe komunikacji miejskiej
+Fakt ten jest określany na podstawie dwóch czynników - sieci neuronowej oraz lokalizacji użytkownika i pojazdu. Warto zaznaczyć, że punkt dostępowy oprócz pakietu odczytów przyjmuje także dwa dodatkowe parametry: *UseNeuralNetwork* oraz *UseLocation*. Pozwalają one określić które metody będą brane pod uwagę przy wyznaczeniu odpowiedzi końcowej.
+
+**Sieć neuronowa**
 Nauczona sieć neuronowa pozwala określić czy użytkownik znajduje się w pojeździe komunikacji miejskiej. Aplikacja serwerowa przyjmuje kolekcję, która składa się z pewnej ilości odczytów z sensorów. Za jej obsługę odpowiada klasa *ModelsManager*. Polega ona na zmapowaniu otrzymanej kolekcji odczytów na inne kolekcje, które odpowiadają poszczególnym modelom znajdującym się po stronie sieci neuronowej. Wykonanie mapowania zapewnia, że do punktu dostępowego sieci neuronowej trafiają jedynie te atrybuty, które rzeczywiście będą użyte do wyznaczenia odpowiedzi, co skutkuje oszczędnością czasu i transferu.
 Model sieci neuronowej generuje odpowiedź, która jest reprezentowana za pomocą klasy *NetworkReposnse*:
 
@@ -232,6 +235,19 @@ Równie łatwe jest dodanie nowego sposobu określania odpowiedzi końcowej, ogr
             return replies.OrderByDescending(x => x.certainty).First().isInTram;
         }
     }
+
+
+**Lokalizacja użytkownika i pojazdu**
+Drugim sposobem jest użycie lokalizacji zarówno urządzenia mobilnego użytkownika jak i lokalizacji samego pojazdu. Z aplikacji mobilnej do serwera wysyłane są obie z nich a następnie wyliczana jest różnica odległości pomiędzy nimi wyrażona w metrach.
+
+W pliku *appsettings.json* znajdują się parametry na podstawie których można określić kiedy użytkownik znajduje się wewnątrz pojazdu:
+
+      "LocationSimilarity": {
+        "DistanceInMeters": 20,
+        "MatchPercent":  30 
+      } 
+
+Pierwsza wartość oznacza przy jakiej maksymalnej różnicy odległości zostanie uznane, że użytkownik znajduje się wewnątrz pojazdu, natomiast druga ile procent spośród wysłanych w pakiecie odczytów lokalizacji musi być uznane jako równe (z uwzględnieniem powyższej dokładności), aby odpowiedź końcowa była twierdząca.
 
 #### Dodawanie odczytów z aplikacji mobilnej do bazy danych
 W `SensorReadingsController` zdefiniowane są dwie metody `PostSensorsReading` oraz `PostSensorsReading`, które pozwalają na dodanie jednego lub kolekcji odczytów (`SensorsReadingUnitsDto`). Następnie odczyty przekazywane są do serwisu `SensorReadingService`, który zapisuje je w bazie. W razie potrzeby odczyty zamieniane są na odpowiednie jednostki, co zosało opisane w rozdziale [Format odczytów danych sensorycznych](#format-odczytów-danych-sensorycznych). 
