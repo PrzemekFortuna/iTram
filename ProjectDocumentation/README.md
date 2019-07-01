@@ -68,6 +68,11 @@ Poszczególne komponenty zostały opisane w stosownych rozdziałach.
 - Mateusz Wadlewski<br/><br/><br/>
 ## 3. Komponent 3 - Baza danych i serwer aplikacyjny<a name="3"></a>
 Aplikacja korzysta z bazy danych *PostgreSQL* znajdującej się w chmurze *Amazon Web Services*. Strukturę bazy prezentuje poniższy diagram.
+Host: ec2-54-247-70-127.eu-west-1.compute.amazonaws.com
+Database: d9rli2kn2uff5q
+User: rjblccjftokfwc
+Port: 5432
+Password: f04c048aa3978082ad41c56a4939558d60b9895c40205f7503dd6899ffef3c04
 
 <br/>
 
